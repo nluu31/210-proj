@@ -7,11 +7,10 @@ For my term project in CPSC 210, I plan on creating an application that helps st
 
 Alongside a multiple choice function, there will also be a true or false question and even a written answer. The written answer cannot be manually graded but will show the recorded answer afterwards. An example of this app in action could be that you record around 10-15 questions into the system and then click on a "quiz me" button. After which, the app will prompt you into a multiple choice/true or false/written answer quiz that will challenge you to pick the right answers in a "test" setting.
 
-A *bulleted* list:
+## User Stories
 - As a user, I wish to be able to note down concepts I have learned in class
 - As a user, I would like to be quizzed on materials I have learned
 - As a user, I want to be able to see what questions I have already added
 - As a user, I want to be able to find my weaknesses in the subject
 - As a user, I want to be able to create different "course folders"
 
-An example of text with **bold** and *italic* fonts.  
