@@ -1,52 +1,75 @@
 package model;
 
-public class Notes {
 
-    private String question;  // question
-    private String answer;    // answer
-    private int reviewed;     // number of times you have visited the question
+// Represents a notebook with the course it's related to, a question and an answer.
+public class Notes {
+    private String class;            // The course/class of the question
+    private List<String> questions;  // a list of questions
+    private List<String> answers;    // a list of answers
+    private int reviewed;            // number of times you have visited the question
 
     /*
-     * REQUIRES: questionName and answerName are not empty strings
-     * EFFECTS:  creates a note with a question and an answer; 
-     *           the note is created with a reviewed integer of 0 
+     * REQUIRES: className is not an empty string
+     * EFFECTS:  creates a class folder and an empty list of questions and answers
      */
-    public Note(String questionName, String answerName) {
-        this.reviewed = 0;
-        this.answer = answerName;
-        this.question = questionName;
+    public Note(String className) {
+        this.class = className;
+        this.question = new ArrayList<>;
+        this.answers = new ArrayList<>;
     }
 
-
-    /* 
-    EFFECTS: returns the questionName
-    */
- 
-    public String getQuestion() {
-        return empty; //stub
-    }
-
-    /* 
-    EFFECTS: returns the answerName
-    */
-    public String getAnswer() {
-        return empty; //stub
-    }
-
-    /* 
-    EFFECTS: returns the amount of times Reviewed
-    */
-
-    public int getReviewed() {
-        return 0; //stub
-    }
-
-    /* 
+  /* 
+    REQUIRES: question and answer are non-empty strings
     MODIFIES: this
-    EFFECTS: increments the number of times reviewed by one
+    EFFECTS: adds the question and answer to the list for the class
     */
-    public int addReviewed() {
-        this.reviewed = this.reviewed++; //STUB
+   
+    public String addQA(String question, String answer) {
+        this.questions.add(question);
+        this.answers.add(answer)
     }
 
+    /* 
+    EFFECTS: returns the number of question/answer pairs in the lists
+    */
+    public int getNumQuestions() {
+        return questions.getSize();
+    }
+
+    /* 
+    EFFECTS: returns all questions in the list
+    */
+    public List<String> getAllQuestions() {
+        return questions;
+    }
+
+    /* 
+    EFFECTS: returns all answers in the list
+    */
+    public List<String> getAllAnswers() {
+        return answers;
+    }
+
+    /* 
+    EFFECTS: returns a specified answer in the list
+    */
+    public String getAnswer(int answerNumber) {
+        return answers.get(answerNumber);
+    }
+
+      /* 
+    EFFECTS: returns a specified question in the list
+    */
+    public String getQuestion(int questionNumber) {
+        return questions.get(questionNumber);
+    }
+
+    /* 
+    EFFECTS: returns the name of the course
+    */
+    public int getCourse() {
+        return class;
+    }
 }
+
+
