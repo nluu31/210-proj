@@ -1,21 +1,23 @@
 package model;
 
+import java.util.List;
+import java.util.ArrayList;
 
 // Represents a notebook with the course it's related to, a question and an answer.
 public class Notes {
-    private String class;            // The course/class of the question
+    private String course;            // The course/class of the question
     private List<String> questions;  // a list of questions
     private List<String> answers;    // a list of answers
-    private int reviewed;            // number of times you have visited the question
+    // private int reviewed;            // number of times you have visited the question
 
     /*
      * REQUIRES: className is not an empty string
      * EFFECTS:  creates a class folder and an empty list of questions and answers
      */
-    public Note(String className) {
-        this.class = className;
-        this.question = new ArrayList<>;
-        this.answers = new ArrayList<>;
+    public Notes(String className) {
+        this.course = className;
+        this.questions = new ArrayList<>();
+        this.answers = new ArrayList<>();
     }
 
   /* 
@@ -24,16 +26,16 @@ public class Notes {
     EFFECTS: adds the question and answer to the list for the class
     */
    
-    public String addQA(String question, String answer) {
+    public void addQA(String question, String answer) {
         this.questions.add(question);
-        this.answers.add(answer)
+        this.answers.add(answer);
     }
 
     /* 
     EFFECTS: returns the number of question/answer pairs in the lists
     */
     public int getNumQuestions() {
-        return questions.getSize();
+        return questions.size();
     }
 
     /* 
@@ -67,8 +69,8 @@ public class Notes {
     /* 
     EFFECTS: returns the name of the course
     */
-    public int getCourse() {
-        return class;
+    public String getCourse() {
+        return course;
     }
 }
 
