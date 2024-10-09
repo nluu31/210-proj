@@ -26,9 +26,10 @@ public class Notes {
     }
 
     /*
-     * REQUIRES: question and answer are non-empty strings
+     * 
      * MODIFIES: this
-     * EFFECTS: adds the question and answer to the list for the class
+     * EFFECTS: adds the question and answer to the list for the class or throws
+     * EmptyStringException if there is an empty string
      */
 
     public void addQA(String question, String answer) throws EmptyStringException {

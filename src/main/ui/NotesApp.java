@@ -40,20 +40,23 @@ public class NotesApp {
         if (command.equals("q")) {
             doAddQuestions(); // ADDS question
         } else if (command.equals("w")) {
-            System.out.println("Number of questions: " + doNumQuestions()); // Print result
+            System.out.println("Number of questions: " + doNumQuestions()); 
         } else if (command.equals("e")) {
-            System.out.println("Questions: " + doQuestions()); // Print results
+            System.out.println("Questions: " + doQuestions()); 
         } else if (command.equals("r")) {
-            System.out.println("Answers: " + doAnswers()); // Print results
+            System.out.println("Answers: " + doAnswers()); 
         } else if (command.equals("t")) {
             String answer = doGetAnswer(); // finds specific answer
-            System.out.println("Answer: " + answer); // Print result
+            System.out.println("Answer: " + answer); 
         } else if (command.equals("y")) {
             String question = doGetQuestion(); // finds specific question
-            System.out.println("Question: " + question); // Print result
+            System.out.println("Question: " + question); 
         } else if (command.equals("u")) {
             String randomQuestion = doTest(); // gets a random question
-            System.out.println("Random Question: " + randomQuestion); // Print result
+            System.out.println("Random Question: " + randomQuestion); 
+        }else if (command.equals("i")) {
+                String className = doGetClass(); // gets a random question
+                System.out.println("Your course name is " + className);
         } else {
             System.out.println("Not a valid option!");
         }
@@ -62,9 +65,18 @@ public class NotesApp {
     // MODIFIES: this
     // EFFECTS: initiates the program
     private void init() {
-        notes = new Notes("New");
         input = new Scanner(System.in);
         input.useDelimiter("\r?\n|\r");
+        doNewNote();
+    }
+
+    private void doNewNote() {
+        System.out.println("Enter the name of the course!");
+        String courseName = input.nextLine();
+        if (courseName.trim().isEmpty()) {
+            System.out.println("Course name cannot be empty!");
+            init(); }
+        notes = new Notes(courseName);
     }
 
     // EFFECTS: displays menu of options
@@ -77,6 +89,7 @@ public class NotesApp {
         System.out.println("\tt -> Find specific answer");
         System.out.println("\ty -> Find specific question");
         System.out.println("\tu -> Test yourself with a random question!");
+        System.out.println("\ti -> View class name");
         ;
     }
 
@@ -140,4 +153,9 @@ public class NotesApp {
     private String doTest() {
         return notes.getRandomQuestion();
     }
+ // EFFECTS: returns the course name
+ private String doGetClass() {
+    return notes.getCourse();
+}
+    
 }
