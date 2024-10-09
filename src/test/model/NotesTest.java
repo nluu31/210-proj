@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Exceptions.EmptyListException;
+import Exceptions.EmptyStringException;
 import Exceptions.OutOfBoundsException;
 
 import java.util.*;
@@ -20,7 +21,7 @@ public class NotesTest {
     private List<String> testAList;
 
     @BeforeEach
-    void runBefore() {
+    void runBefore() throws EmptyStringException {
         testNotes = new Notes("CPSC210");
         testNotes.addQA("What is an integer?", "A whole number");
         testNotes.addQA("What is a string?", "A combination of characters");
@@ -54,16 +55,20 @@ public class NotesTest {
     }
 
     @Test
-    void testAddOneQuestionAnswer() throws OutOfBoundsException {
+    void testAddOneQuestionAnswer() throws OutOfBoundsException, EmptyStringException{
         assertEquals(2, testNotes.getNumQuestions());
         testNotes.addQA("What is an integer?", "A whole number");
         assertEquals(3, testNotes.getNumQuestions());
         assertEquals("What is an integer?", testNotes.getQuestion(0));
         assertEquals("A whole number", testNotes.getAnswer(0));
+        assertThrows(EmptyStringException.class, () -> testNotes.addQA("", "a1"));
+        assertThrows(EmptyStringException.class, () -> testNotes.addQA("q1", "")); 
+        assertThrows(EmptyStringException.class, () -> testNotes.addQA("", "a1"));  
+        
     }
 
     @Test
-    void testAddMultipleQuestionAnswer() throws OutOfBoundsException {
+    void testAddMultipleQuestionAnswer() throws OutOfBoundsException, EmptyStringException {
         assertEquals(2, testNotes.getNumQuestions());
         testNotes.addQA("What is the first colour of the rainbow?", "Red");
         assertEquals(3, testNotes.getNumQuestions());

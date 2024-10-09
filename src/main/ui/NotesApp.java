@@ -3,6 +3,7 @@ package ui;
 import model.Notes;
 import java.util.*;
 
+import Exceptions.EmptyStringException;
 import Exceptions.OutOfBoundsException;
 
 public class NotesApp {
@@ -86,7 +87,15 @@ public class NotesApp {
         String question = input.next();
         System.out.println("Enter the answer:");
         String answer = input.next();
-        notes.addQA(question, answer);
+        if (question.trim().isEmpty() || answer.trim().isEmpty()) {
+            System.out.println("Question and answer cannot be empty!");
+            return; 
+        }
+        try {
+            notes.addQA(question, answer);
+        } catch (EmptyStringException e) {
+            System.out.println("Please enter a valid question/answer!");
+        }
         System.out.println("Question and answer added successfully!");
     }
 
@@ -105,7 +114,7 @@ public class NotesApp {
         return notes.getAllAnswers();
     }
 
-    // EFFECTS: returns a specific question from the list
+    // EFFECTS: returns a specific question from the list or returns message if exception is caught
     private String doGetQuestion() {
         System.out.println("Enter the index of the question you want");
         int question = input.nextInt();
@@ -116,7 +125,7 @@ public class NotesApp {
         }
     }
 
-    // EFFECTS: returns a specific answer from the list
+    // EFFECTS: returns a specific answer from the list or returns message if exception is caught
     private String doGetAnswer() {
         System.out.println("Enter the index of the answer you want");
         int answer = input.nextInt();

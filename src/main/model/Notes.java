@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Exceptions.EmptyListException;
+import Exceptions.EmptyStringException;
 import Exceptions.OutOfBoundsException;
 
 // Represents a notebook with the course it's related to, a question and an answer.
@@ -30,7 +31,10 @@ public class Notes {
      * EFFECTS: adds the question and answer to the list for the class
      */
 
-    public void addQA(String question, String answer) {
+    public void addQA(String question, String answer) throws EmptyStringException {
+        if(question=="" || answer == "") {
+            throw new EmptyStringException();
+        }
         this.questions.add(question);
         this.answers.add(answer);
     }
@@ -57,7 +61,8 @@ public class Notes {
     }
 
     /*
-     * EFFECTS: returns a specified answer in the list
+     * EFFECTS: returns a specified answer in the list or throws
+     * an exception if the answer number < 0 or answer number >= size
      */
     public String getAnswer(int answerNumber) throws OutOfBoundsException {
         if (answerNumber < 0 || answerNumber >= answers.size()) {
@@ -93,7 +98,11 @@ public class Notes {
             return random.nextInt(getNumQuestions());
         }
     
-
+    /*
+     * EFFECTS: returns a random question with the index generated from 
+     * the getRandom method
+     * 
+     */
     public String getRandomQuestion() {
         try {
             return questions.get(getRandom());
