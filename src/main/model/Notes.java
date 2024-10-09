@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Exceptions.EmptyListException;
+import Exceptions.OutOfBoundsException;
 
 // Represents a notebook with the course it's related to, a question and an answer.
 public class Notes {
@@ -58,14 +59,21 @@ public class Notes {
     /*
      * EFFECTS: returns a specified answer in the list
      */
-    public String getAnswer(int answerNumber) {
+    public String getAnswer(int answerNumber) throws OutOfBoundsException {
+        if (answerNumber < 0 || answerNumber >= answers.size()) {
+            throw new OutOfBoundsException();
+        }
         return answers.get(answerNumber);
     }
 
     /*
      * EFFECTS: returns a specified question in the list
      */
-    public String getQuestion(int questionNumber) {
+    public String getQuestion(int questionNumber) throws OutOfBoundsException {
+        if (questionNumber < 0 || questionNumber >= questions.size()) {
+            throw new OutOfBoundsException();
+        }
+        
         return questions.get(questionNumber);
     }
 

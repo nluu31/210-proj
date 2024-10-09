@@ -3,6 +3,8 @@ package ui;
 import model.Notes;
 import java.util.*;
 
+import Exceptions.OutOfBoundsException;
+
 public class NotesApp {
     private Scanner input;
     private Notes notes;
@@ -107,14 +109,22 @@ public class NotesApp {
     private String doGetQuestion() {
         System.out.println("Enter the index of the question you want");
         int question = input.nextInt();
-        return notes.getQuestion(question);
+        try {
+            return notes.getQuestion(question);
+        } catch (OutOfBoundsException e) {
+           return "Value is not within the bounds of the list";
+        }
     }
 
     // EFFECTS: returns a specific answer from the list
     private String doGetAnswer() {
         System.out.println("Enter the index of the answer you want");
         int answer = input.nextInt();
-        return notes.getAnswer(answer);
+        try {
+            return notes.getAnswer(answer);
+        } catch (OutOfBoundsException e) {
+           return "Value is not within the bounds of the list";
+        }
     }
 
     // EFFECTS: returns a random question from the list
