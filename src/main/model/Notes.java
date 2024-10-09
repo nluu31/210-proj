@@ -75,15 +75,15 @@ public class Notes {
     }
 
         public int getRandom() {
-            if (questions.isEmpty()) {
-                System.out.println("No questions!");
-            }
             Random random = new Random();
             return random.nextInt(getNumQuestions());
         }
     
 
     public String getRandomQuestion() {
+        if (questions.isEmpty()) {
+            return "No questions!";
+        }
         return questions.get(getRandom());
     }
 }
