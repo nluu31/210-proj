@@ -73,3 +73,8 @@ public class Notes {
         return course;
     }
 }
+
+    /*
+     * EFFECTS: returns the name of the course
+     */
+

@@ -9,7 +9,8 @@ Alongside a multiple choice function, there will also be a true or false questio
 
 ## User Stories
 - As a user, I wish to be able to note down concepts I have learned in class
-- As a user, I would like to be quizzed on materials I have learned
+- As a user, I would like to be quizzed on materials I have noted in short form response
+- As a user, I would like to be quizzed on materials I have noted in multiple choice form
 - As a user, I want to be able to see what questions I have already added
 - As a user, I want to be able to create different "course folders"
 
