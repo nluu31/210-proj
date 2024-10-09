@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 // Represents a notebook with the course it's related to, a question and an answer.
 public class Notes {
@@ -72,9 +73,21 @@ public class Notes {
     public String getCourse() {
         return course;
     }
+
+        public int getRandom() {
+            if (questions.isEmpty()) {
+                System.out.println("No questions!");
+            }
+            Random random = new Random();
+            return random.nextInt(getNumQuestions());
+        }
+    
+
+    public String getRandomQuestion() {
+        return questions.get(getRandom());
+    }
 }
 
-    /*
-     * EFFECTS: returns the name of the course
-     */
 
+
+    
