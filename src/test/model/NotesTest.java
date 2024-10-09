@@ -5,12 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import Exceptions.EmptyListException;
+
 import java.util.*;
 
 
 public class NotesTest {
     private Notes testNotes;
     private Notes testNotesEmpty;
+    private Notes testNotesOne;
     private List<String> testQList;
     private List<String> testAList;
     
@@ -28,6 +32,8 @@ public class NotesTest {
         testQList.add("What is a string?");
         testAList.add("A combination of characters");
         testNotesEmpty = new Notes("Empty");
+        testNotesOne = new Notes("Empty");
+        testNotesOne.addQA("Q1", "A2");
     }
 
     @Test
@@ -75,11 +81,20 @@ public class NotesTest {
 
 
     @Test
-    void testRandom() {
+    void testRandom() throws EmptyListException {
         int randomIndex = testNotes.getRandom();
-        assertTrue(randomIndex >= 0 && randomIndex < testNotes.getNumQuestions(),
-                   "Random index should be within the valid range");
+        assertTrue(randomIndex >= 0 && randomIndex < testNotes.getNumQuestions());
+    
     }
+
+    @Test
+    void testRandomOne() throws EmptyListException {
+        int randomIndex = testNotesOne.getRandom();
+        assertEquals(0, randomIndex);
+                   
+    }
+
+
     @Test 
     void testGetRandomQ() {
         String randomQuestion = testNotes.getRandomQuestion();

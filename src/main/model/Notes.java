@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Exceptions.EmptyListException;
+
 // Represents a notebook with the course it's related to, a question and an answer.
 public class Notes {
     private String course; // The course/class of the question
@@ -68,24 +70,29 @@ public class Notes {
     }
 
     /*
-     * EFFECTS: returns the name of the course
+     * EFFECTS: returns the name of the course or 
+     * returns an EmptyListException if the list is empty
      */
     public String getCourse() {
         return course;
     }
 
-        public int getRandom() {
+        public int getRandom() throws EmptyListException {
+            if (questions.isEmpty()) {
+                throw new EmptyListException();
+            }
             Random random = new Random();
             return random.nextInt(getNumQuestions());
         }
     
 
     public String getRandomQuestion() {
-        if (questions.isEmpty()) {
+        try {
+            return questions.get(getRandom());
+        } catch(EmptyListException e) {
             return "No questions!";
-        }
-        return questions.get(getRandom());
     }
+}
 }
 
 
