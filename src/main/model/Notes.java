@@ -67,7 +67,7 @@ public class Notes {
     }
 
      /*
-     * EFFECTS: returns all answers in the list
+     * EFFECTS: returns all units in the list
      */
     public List<String> getAllFromUnit(String unitName) {
         ArrayList<String> unitList = new ArrayList<>();
@@ -117,7 +117,7 @@ public class Notes {
             return random.nextInt(getNumQuestions());
         }
 
-    public
+    
     
     /*
      * EFFECTS: returns a random question with the index generated from 
