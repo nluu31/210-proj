@@ -6,6 +6,9 @@ import java.util.*;
 import Exceptions.EmptyStringException;
 import Exceptions.OutOfBoundsException;
 
+
+// Referenced from the Teller App
+// https://github.students.cs.ubc.ca/CPSC210/TellerApp
 public class NotesApp {
     private Scanner input;
     private Notes notes;
