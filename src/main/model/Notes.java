@@ -66,6 +66,19 @@ public class Notes {
         return answerList;
     }
 
+     /*
+     * EFFECTS: returns all answers in the list
+     */
+    public List<String> getAllFromUnit(String unitName) {
+        ArrayList<String> unitList = new ArrayList<>();
+        for (QuestionAnswer qa : questionAnswerList) {
+            if(qa.getUnit() == unitName) {
+                unitList.add(qa.getAnswer());
+            } 
+        }
+        return unitList;
+    }
+
     /*
      * EFFECTS: returns a specified answer in the list or throws
      * an exception if the answer number < 0 or answer number >= size
@@ -103,6 +116,8 @@ public class Notes {
             Random random = new Random();
             return random.nextInt(getNumQuestions());
         }
+
+    public
     
     /*
      * EFFECTS: returns a random question with the index generated from 
