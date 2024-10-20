@@ -11,9 +11,7 @@ import Exceptions.OutOfBoundsException;
 // Represents a notebook with the course it's related to, a question and an answer.
 public class Notes {
     private String course; // The course/class of the question
-    private List<String> questions; // a list of questions
-    private List<String> answers; // a list of answers
-    // private int reviewed; // number of times you have visited the question
+    private List<QuestionAnswer> questionAnswerList ; // a list of question answer pairs
 
     /*
      * REQUIRES: className is not an empty string
@@ -21,8 +19,9 @@ public class Notes {
      */
     public Notes(String className) {
         this.course = className;
-        this.questions = new ArrayList<>();
-        this.answers = new ArrayList<>();
+        this.questionAnswerList  = new ArrayList<>();
+        questionAnswerList = new ArrayList<>();
+    
     }
 
     /*
@@ -32,33 +31,39 @@ public class Notes {
      * EmptyStringException if there is an empty string
      */
 
-    public void addQA(String question, String answer) throws EmptyStringException {
-        if(question=="" || answer == "") {
-            throw new EmptyStringException();
-        }
-        this.questions.add(question);
-        this.answers.add(answer);
+    public void addQA(String question, String answer, String unit) throws EmptyStringException {
+        QuestionAnswer qas = new QuestionAnswer(question, answer, unit);
+        this.questionAnswerList.add(qas);
     }
+
 
     /*
      * EFFECTS: returns the number of question/answer pairs in the lists
      */
     public int getNumQuestions() {
-        return questions.size();
+        return questionAnswerList .size();
     }
 
     /*
      * EFFECTS: returns all questions in the list
      */
     public List<String> getAllQuestions() {
-        return questions;
+        ArrayList<String> questionList = new ArrayList<>();
+        for (QuestionAnswer qa : questionAnswerList) {
+            questionList.add(qa.getQuestion());
+        }
+        return questionList;
     }
 
     /*
      * EFFECTS: returns all answers in the list
      */
     public List<String> getAllAnswers() {
-        return answers;
+        ArrayList<String> answerList = new ArrayList<>();
+        for (QuestionAnswer qa : questionAnswerList) {
+            answerList.add(qa.getAnswer());
+        }
+        return answerList;
     }
 
     /*
@@ -66,21 +71,21 @@ public class Notes {
      * an exception if the answer number < 0 or answer number >= size
      */
     public String getAnswer(int answerNumber) throws OutOfBoundsException {
-        if (answerNumber < 0 || answerNumber >= answers.size()) {
+        if (answerNumber < 0 || answerNumber >= questionAnswerList.size()) {
             throw new OutOfBoundsException();
         }
-        return answers.get(answerNumber);
+        return questionAnswerList.get(answerNumber).getAnswer();
     }
 
     /*
      * EFFECTS: returns a specified question in the list
      */
     public String getQuestion(int questionNumber) throws OutOfBoundsException {
-        if (questionNumber < 0 || questionNumber >= questions.size()) {
+        if (questionNumber < 0 || questionNumber >= questionAnswerList.size()) {
             throw new OutOfBoundsException();
         }
         
-        return questions.get(questionNumber);
+        return questionAnswerList.get(questionNumber).getQuestion();
     }
 
     /*
@@ -92,7 +97,7 @@ public class Notes {
     }
 
         public int getRandom() throws EmptyListException {
-            if (questions.isEmpty()) {
+            if (questionAnswerList.isEmpty()) {
                 throw new EmptyListException();
             }
             Random random = new Random();
@@ -106,7 +111,7 @@ public class Notes {
      */
     public String getRandomQuestion() {
         try {
-            return questions.get(getRandom());
+            return questionAnswerList.get(getRandom()).getQuestion();
         } catch(EmptyListException e) {
             return "No questions!";
     }

@@ -100,12 +100,14 @@ public class NotesApp {
         String question = input.next();
         System.out.println("Enter the answer:");
         String answer = input.next();
+        System.out.println("Which unit is your question from?");
+        String unit = input.next();
         if (question.trim().isEmpty() || answer.trim().isEmpty()) {
             System.out.println("Question and answer cannot be empty!");
             return; 
         }
         try {
-            notes.addQA(question, answer);
+            notes.addQA(question, answer, unit);
         } catch (EmptyStringException e) {
             System.out.println("Please enter a valid question/answer!");
         }
