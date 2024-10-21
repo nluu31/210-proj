@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
-import org.json.JSONObject;
+import org.json.*;
 
 
 
@@ -43,30 +43,30 @@ public class JsonReader {
     }
 
     // EFFECTS: parses workroom from JSON object and returns it
-    private WorkRoom parseWorkRoom(JSONObject jsonObject) {
+    private Notes parseWorkRoom(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
-        WorkRoom wr = new WorkRoom(name);
-        addThingies(wr, jsonObject);
-        return wr;
+        Notes note = new Notes(name);
+        addThingies(note, jsonObject);
+        return note;
     }
 
     // MODIFIES: wr
     // EFFECTS: parses thingies from JSON object and adds them to workroom
-    private void addThingies(WorkRoom wr, JSONObject jsonObject) {
+    private void addThingies(Notes note, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("thingies");
         for (Object json : jsonArray) {
             JSONObject nextThingy = (JSONObject) json;
-            addThingy(wr, nextThingy);
+            addQAs(note, nextThingy);
         }
     }
 
     // MODIFIES: wr
     // EFFECTS: parses thingy from JSON object and adds it to workroom
-    private void addThingy(WorkRoom wr, JSONObject jsonObject) {
+    private void addThingy(Notes note, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         Category category = Category.valueOf(jsonObject.getString("category"));
-        Thingy thingy = new Thingy(name, category);
-        wr.addThingy(thingy);
+        QuestionAnswer qa = new QuestionAnswer(name, category);
+        note.addQAs(qa);
     }
 }
-}
+
