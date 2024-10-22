@@ -26,11 +26,11 @@ public class NotesApp {
     private JsonReader jsonReader;
 
     // EFFECTS: runs the Notes application
-    public NotesApp() {
+    public NotesApp() throws EmptyStringException {
         runNotes();
     }
 
-    public void runNotes() {
+    public void runNotes() throws EmptyStringException {
         boolean keepGoing = true;
         String command = null;
 
@@ -51,7 +51,7 @@ public class NotesApp {
 
     // MODIFIES: this
     // EFFECTS: processes the user inputs
-    private void processCommand(String command) {
+    private void processCommand(String command) throws EmptyStringException {
         if (command.equals("q")) {
             doAddQuestions(); // ADDS question
         } else if (command.equals("w")) {
