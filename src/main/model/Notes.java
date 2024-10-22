@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import Exceptions.EmptyListException;
@@ -136,14 +137,20 @@ public class Notes {
             return "No questions!";
     }
 }
-// EFFECTS: returns this QuestionAnswer as a JSON object
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("question", question);
-        json.put("answer", answer);
-        json.put("unit", unit);
-        return json;
+public JSONObject toJson() {
+    JSONObject json = new JSONObject();
+    json.put("course", course);  // Include the course name
+    json.put("questions", questionsToJson());  // Convert question-answer pairs to JSON
+    return json;
+}
+
+private JSONArray questionsToJson() {
+    JSONArray jsonArray = new JSONArray();
+    for (QuestionAnswer qa : questionAnswerList) {
+        jsonArray.put(qa.toJson());  // Assuming QuestionAnswer has a toJson method
     }
+    return jsonArray;
+}
 }
 
 

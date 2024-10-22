@@ -51,7 +51,7 @@ public class JsonReader {
     // MODIFIES: wr
     // EFFECTS: parses questionAnswers from JSON object and adds them to notes
     private void addQAs(Notes notes, JSONObject jsonObject) throws EmptyStringException {
-        JSONArray jsonArray = jsonObject.getJSONArray("questionAnswerList");
+        JSONArray jsonArray = jsonObject.getJSONArray("questions");
         for (Object json : jsonArray) {
             JSONObject nextQA = (JSONObject) json;
             addQA(notes, nextQA);

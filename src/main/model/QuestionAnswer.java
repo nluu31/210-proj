@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import Exceptions.EmptyStringException;
 
 //Represents a Question and Answer Pair
@@ -34,6 +36,14 @@ public class QuestionAnswer {
     public String getUnit() {
         return unit;
     }
+
+    public JSONObject toJson() {
+    JSONObject json = new JSONObject();
+    json.put("question", question);
+    json.put("answer", answer);
+    json.put("unit", unit);
+    return json;
+}
 
     
 

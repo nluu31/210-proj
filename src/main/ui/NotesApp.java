@@ -19,7 +19,7 @@ import Exceptions.OutOfBoundsException;
 // Referenced from the Teller App
 // https://github.students.cs.ubc.ca/CPSC210/TellerApp
 public class NotesApp {
-    private static final String JSON_STORE = "./data/workroom.json";
+    private static final String JSON_STORE = "./data/notes.json";
     private Scanner input;
     private Notes notes;
     private JsonWriter jsonWriter;
@@ -28,6 +28,7 @@ public class NotesApp {
     // EFFECTS: runs the Notes application
     public NotesApp() throws EmptyStringException {
         runNotes();
+        
     }
 
     public void runNotes() throws EmptyStringException {
@@ -88,6 +89,8 @@ public class NotesApp {
         input = new Scanner(System.in);
         input.useDelimiter("\r?\n|\r");
         doNewNote();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     private void doNewNote() {
@@ -110,8 +113,8 @@ public class NotesApp {
         System.out.println("\ty -> Find specific question");
         System.out.println("\tu -> Test yourself with a random question!");
         System.out.println("\ti -> View class name");
-        System.out.println("\ts -> save work room to file");
-        System.out.println("\tl -> load work room from file");
+        System.out.println("\ts -> save questions and answers to file");
+        System.out.println("\tl -> load questions and answers from file");
         System.out.println("\tx -> quit");
         ;
     }
