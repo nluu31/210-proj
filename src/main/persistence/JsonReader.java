@@ -1,9 +1,7 @@
 package persistence;
 
-import org.junit.experimental.categories.Category;
-
+import Exceptions.EmptyStringException;
 import model.Notes;
-import model.QuestionAnswer;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -23,12 +21,12 @@ public class JsonReader {
         this.source = source;
     }
 
-    // EFFECTS: reads workroom from file and returns it;
-    // throws IOException if an error occurs reading data from file
-    public Notes read() throws IOException {
+    // EFFECTS: reads Notes from file and returns it;
+    // throws IOException if an error occurs 
+    public Notes read() throws IOException, EmptyStringException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        return parseWorkRoom(jsonObject);
+        return parseNotes(jsonObject);
     }
 
     // EFFECTS: reads source file as string and returns it
@@ -42,31 +40,31 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses workroom from JSON object and returns it
-    private Notes parseWorkRoom(JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
-        Notes note = new Notes(name);
-        addThingies(note, jsonObject);
-        return note;
+    // EFFECTS: parses notes from JSON object and returns it
+    private Notes parseNotes(JSONObject jsonObject) throws EmptyStringException {
+        String course = jsonObject.getString("course");
+        Notes notes = new Notes(course);
+        addQAs(notes, jsonObject);
+        return notes;
     }
 
     // MODIFIES: wr
-    // EFFECTS: parses thingies from JSON object and adds them to workroom
-    private void addThingies(Notes note, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("thingies");
+    // EFFECTS: parses questionAnswers from JSON object and adds them to notes
+    private void addQAs(Notes notes, JSONObject jsonObject) throws EmptyStringException {
+        JSONArray jsonArray = jsonObject.getJSONArray("questionAnswerList");
         for (Object json : jsonArray) {
-            JSONObject nextThingy = (JSONObject) json;
-            addQAs(note, nextThingy);
+            JSONObject nextQA = (JSONObject) json;
+            addQA(notes, nextQA);
         }
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingy from JSON object and adds it to workroom
-    private void addThingy(Notes note, JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
-        Category category = Category.valueOf(jsonObject.getString("category"));
-        QuestionAnswer qa = new QuestionAnswer(name, category);
-        note.addQAs(qa);
+   // MODIFIES: notes
+    // EFFECTS: parses a single question/answer pair from JSON object and adds it to Notes
+    private void addQA(Notes notes, JSONObject jsonObject) throws EmptyStringException {
+        String question = jsonObject.getString("question");
+        String answer = jsonObject.getString("answer");
+        String unit = jsonObject.getString("unit");
+        notes.addQA(question, answer, unit);
     }
 }
 

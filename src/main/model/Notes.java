@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.json.JSONObject;
+
 import Exceptions.EmptyListException;
 import Exceptions.EmptyStringException;
 import Exceptions.OutOfBoundsException;
@@ -12,6 +14,9 @@ import Exceptions.OutOfBoundsException;
 public class Notes {
     private String course; // The course/class of the question
     private List<QuestionAnswer> questionAnswerList ; // a list of question answer pairs
+    private String question;
+    private String answer;
+    private String unit;
 
     /*
      * REQUIRES: className is not an empty string
@@ -131,6 +136,14 @@ public class Notes {
             return "No questions!";
     }
 }
+// EFFECTS: returns this QuestionAnswer as a JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("question", question);
+        json.put("answer", answer);
+        json.put("unit", unit);
+        return json;
+    }
 }
 
 
