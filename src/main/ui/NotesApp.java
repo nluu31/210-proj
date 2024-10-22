@@ -40,7 +40,7 @@ public class NotesApp {
             displayMenu();
             command = input.next();
 
-            if (command.equals("l")) {
+            if (command.equals("q")) {
                 keepGoing = false;
             } else {
                 processCommand(command);
