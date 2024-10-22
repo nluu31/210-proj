@@ -2,6 +2,15 @@ package ui;
 
 import model.Notes;
 import java.util.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
+
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
 
 import Exceptions.EmptyStringException;
 import Exceptions.OutOfBoundsException;
@@ -10,8 +19,11 @@ import Exceptions.OutOfBoundsException;
 // Referenced from the Teller App
 // https://github.students.cs.ubc.ca/CPSC210/TellerApp
 public class NotesApp {
+    private static final String JSON_STORE = "./data/workroom.json";
     private Scanner input;
     private Notes notes;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the Notes application
     public NotesApp() {
@@ -60,7 +72,12 @@ public class NotesApp {
         }else if (command.equals("i")) {
                 String className = doGetClass(); // gets a random question
                 System.out.println("Your course name is " + className);
-        } else {
+                
+        } else if (command.equals("s")) {
+            saveNotes();
+        } else if (command.equals("l")) {
+            loadNotes();
+        }else {
             System.out.println("Not a valid option!");
         }
     }
@@ -93,6 +110,9 @@ public class NotesApp {
         System.out.println("\ty -> Find specific question");
         System.out.println("\tu -> Test yourself with a random question!");
         System.out.println("\ti -> View class name");
+        System.out.println("\ts -> save work room to file");
+        System.out.println("\tl -> load work room from file");
+        System.out.println("\tx -> quit");
         ;
     }
 
@@ -161,6 +181,28 @@ public class NotesApp {
  // EFFECTS: returns the course name
  private String doGetClass() {
     return notes.getCourse();
+}
+// EFFECTS: saves the notes to file
+private void saveNotes() {
+    try {
+        jsonWriter.open();
+        jsonWriter.write(notes);
+        jsonWriter.close();
+        System.out.println("Saved " + notes.getAllQuestions() + " to " + JSON_STORE);
+    } catch (FileNotFoundException e) {
+        System.out.println("Unable to write to file: " + JSON_STORE);
+    }
+}
+
+// MODIFIES: this
+// EFFECTS: loads notes from file
+private void loadNotes() throws EmptyStringException {
+    try {
+        notes = jsonReader.read();
+        System.out.println("Loaded " + notes.getAllQuestions() + " from " + JSON_STORE);
+    } catch (IOException e) {
+        System.out.println("Unable to read from file: " + JSON_STORE);
+    }
 }
     
 }
