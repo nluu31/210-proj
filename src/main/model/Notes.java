@@ -70,13 +70,13 @@ public class Notes {
     }
 
      /*
-     * EFFECTS: returns all units in the list
+     * EFFECTS: returns all questions from a unit in the list
      */
     public List<String> getAllFromUnit(String unitName) {
         ArrayList<String> unitList = new ArrayList<>();
         for (QuestionAnswer qa : questionAnswerList) {
-            if(qa.getUnit() == unitName) {
-                unitList.add(qa.getAnswer());
+            if(qa.getUnit().equals(unitName)) {
+                unitList.add(qa.getQuestion());
             } 
         }
         return unitList;
@@ -134,17 +134,19 @@ public class Notes {
             return "No questions!";
     }
 }
+
 public JSONObject toJson() {
     JSONObject json = new JSONObject();
-    json.put("course", course);  // Include the course name
-    json.put("questions", questionsToJson());  // Convert question-answer pairs to JSON
+    json.put("course", course); 
+    json.put("questions", questionsToJson()); 
     return json;
 }
 
+ // EFFECTS: returns things in this workroom as a JSON array
 private JSONArray questionsToJson() {
     JSONArray jsonArray = new JSONArray();
     for (QuestionAnswer qa : questionAnswerList) {
-        jsonArray.put(qa.toJson());  // Assuming QuestionAnswer has a toJson method
+        jsonArray.put(qa.toJson());  
     }
     return jsonArray;
 }
