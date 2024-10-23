@@ -1,11 +1,9 @@
 package persistence;
 
-import org.junit.experimental.categories.Category;
 import org.junit.jupiter.api.Test;
 
-import Exceptions.EmptyStringException;
+import exceptions.EmptyStringException;
 import model.Notes;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -15,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 public class JsonWriterTest {
 
-  // test to write an illegal file
-  @Test
+    // test to write an illegal file
+    @Test
     void testWriterInvalidFile() {
         try {
             Notes note = new Notes("210");
@@ -46,7 +44,7 @@ public class JsonWriterTest {
         }
     }
 
-       @Test
+    @Test
     void testWriterGeneralNote() throws EmptyStringException {
         try {
             Notes note = new Notes("210");

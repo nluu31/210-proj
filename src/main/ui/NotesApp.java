@@ -4,16 +4,13 @@ import model.Notes;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-import Exceptions.EmptyStringException;
-import Exceptions.OutOfBoundsException;
-
+import exceptions.EmptyStringException;
+import exceptions.OutOfBoundsException;
 
 // Referenced from the Teller App
 // https://github.students.cs.ubc.ca/CPSC210/TellerApp
@@ -27,7 +24,7 @@ public class NotesApp {
     // EFFECTS: runs the Notes application
     public NotesApp() throws EmptyStringException {
         runNotes();
-        
+
     }
 
     public void runNotes() throws EmptyStringException {
@@ -51,33 +48,33 @@ public class NotesApp {
 
     // MODIFIES: this
     // EFFECTS: processes the user inputs
+    @SuppressWarnings("methodlength")
     private void processCommand(String command) throws EmptyStringException {
         if (command.equals("q")) {
             doAddQuestions(); // ADDS question
         } else if (command.equals("w")) {
-            System.out.println("Number of questions: " + doNumQuestions()); 
+            System.out.println("Number of questions: " + doNumQuestions());
         } else if (command.equals("e")) {
-            System.out.println("Questions: " + doQuestions()); 
+            System.out.println("Questions: " + doQuestions());
         } else if (command.equals("r")) {
-            System.out.println("Answers: " + doAnswers()); 
+            System.out.println("Answers: " + doAnswers());
         } else if (command.equals("t")) {
             String answer = doGetAnswer(); // finds specific answer
-            System.out.println("Answer: " + answer); 
+            System.out.println("Answer: " + answer);
         } else if (command.equals("y")) {
             String question = doGetQuestion(); // finds specific question
-            System.out.println("Question: " + question); 
+            System.out.println("Question: " + question);
         } else if (command.equals("u")) {
             String randomQuestion = doTest(); // gets a random question
-            System.out.println("Random Question: " + randomQuestion); 
-        }else if (command.equals("i")) {
-                String className = doGetClass(); // gets a random question
-                System.out.println("Your course name is " + className);
-                
+            System.out.println("Random Question: " + randomQuestion);
+        } else if (command.equals("i")) {
+            String className = doGetClass(); // gets a random question
+            System.out.println("Your course name is " + className);
         } else if (command.equals("s")) {
             saveNotes();
         } else if (command.equals("l")) {
             loadNotes();
-        }else {
+        } else {
             System.out.println("Not a valid option!");
         }
     }
@@ -97,7 +94,8 @@ public class NotesApp {
         String courseName = input.nextLine();
         if (courseName.trim().isEmpty()) {
             System.out.println("Course name cannot be empty!");
-            init(); }
+            init();
+        }
         notes = new Notes(courseName);
     }
 
@@ -129,7 +127,7 @@ public class NotesApp {
         String unit = input.next();
         if (question.trim().isEmpty() || answer.trim().isEmpty()) {
             System.out.println("Question and answer cannot be empty!");
-            return; 
+            return;
         }
         try {
             notes.addQA(question, answer, unit);
@@ -154,25 +152,27 @@ public class NotesApp {
         return notes.getAllAnswers();
     }
 
-    // EFFECTS: returns a specific question from the list or returns message if exception is caught
+    // EFFECTS: returns a specific question from the list or returns message if
+    // exception is caught
     private String doGetQuestion() {
         System.out.println("Enter the index of the question you want");
         int question = input.nextInt();
         try {
             return notes.getQuestion(question);
         } catch (OutOfBoundsException e) {
-           return "Value is not within the bounds of the list";
+            return "Value is not within the bounds of the list";
         }
     }
 
-    // EFFECTS: returns a specific answer from the list or returns message if exception is caught
+    // EFFECTS: returns a specific answer from the list or returns message if
+    // exception is caught
     private String doGetAnswer() {
         System.out.println("Enter the index of the answer you want");
         int answer = input.nextInt();
         try {
             return notes.getAnswer(answer);
         } catch (OutOfBoundsException e) {
-           return "Value is not within the bounds of the list";
+            return "Value is not within the bounds of the list";
         }
     }
 
@@ -180,31 +180,33 @@ public class NotesApp {
     private String doTest() {
         return notes.getRandomQuestion();
     }
- // EFFECTS: returns the course name
- private String doGetClass() {
-    return notes.getCourse();
-}
-// EFFECTS: saves the notes to file
-private void saveNotes() {
-    try {
-        jsonWriter.open();
-        jsonWriter.write(notes);
-        jsonWriter.close();
-        System.out.println("Saved " + notes.getAllQuestions() + " to " + JSON_STORE);
-    } catch (FileNotFoundException e) {
-        System.out.println("Unable to write to file: " + JSON_STORE);
-    }
-}
 
-// MODIFIES: this
-// EFFECTS: loads notes from file
-private void loadNotes() throws EmptyStringException {
-    try {
-        notes = jsonReader.read();
-        System.out.println("Loaded " + notes.getAllQuestions() + " from " + JSON_STORE);
-    } catch (IOException e) {
-        System.out.println("Unable to read from file: " + JSON_STORE);
+    // EFFECTS: returns the course name
+    private String doGetClass() {
+        return notes.getCourse();
     }
-}
-    
+
+    // EFFECTS: saves the notes to file
+    private void saveNotes() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(notes);
+            jsonWriter.close();
+            System.out.println("Saved " + notes.getAllQuestions() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads notes from file
+    private void loadNotes() throws EmptyStringException {
+        try {
+            notes = jsonReader.read();
+            System.out.println("Loaded " + notes.getAllQuestions() + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
 }

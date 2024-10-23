@@ -7,14 +7,14 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Exceptions.EmptyListException;
-import Exceptions.EmptyStringException;
-import Exceptions.OutOfBoundsException;
+import exceptions.EmptyListException;
+import exceptions.EmptyStringException;
+import exceptions.OutOfBoundsException;
 
 // Represents a notebook with the course it's related to, a question and an answer.
 public class Notes {
     private String course; // The course/class of the question
-    private List<QuestionAnswer> questionAnswerList ; // a list of question answer pairs
+    private List<QuestionAnswer> questionAnswerList; // a list of question answer pairs
 
     /*
      * REQUIRES: className is not an empty string
@@ -22,9 +22,9 @@ public class Notes {
      */
     public Notes(String className) {
         this.course = className;
-        this.questionAnswerList  = new ArrayList<>();
+        this.questionAnswerList = new ArrayList<>();
         questionAnswerList = new ArrayList<>();
-    
+
     }
 
     /*
@@ -39,12 +39,11 @@ public class Notes {
         this.questionAnswerList.add(qas);
     }
 
-
     /*
      * EFFECTS: returns the number of question/answer pairs in the lists
      */
     public int getNumQuestions() {
-        return questionAnswerList .size();
+        return questionAnswerList.size();
     }
 
     /*
@@ -69,15 +68,15 @@ public class Notes {
         return answerList;
     }
 
-     /*
+    /*
      * EFFECTS: returns all questions from a unit in the list
      */
     public List<String> getAllFromUnit(String unitName) {
         ArrayList<String> unitList = new ArrayList<>();
         for (QuestionAnswer qa : questionAnswerList) {
-            if(qa.getUnit().equals(unitName)) {
+            if (qa.getUnit().equals(unitName)) {
                 unitList.add(qa.getQuestion());
-            } 
+            }
         }
         return unitList;
     }
@@ -100,58 +99,52 @@ public class Notes {
         if (questionNumber < 0 || questionNumber >= questionAnswerList.size()) {
             throw new OutOfBoundsException();
         }
-        
+
         return questionAnswerList.get(questionNumber).getQuestion();
     }
 
     /*
-     * EFFECTS: returns the name of the course or 
+     * EFFECTS: returns the name of the course or
      * returns an EmptyListException if the list is empty
      */
     public String getCourse() {
         return course;
     }
 
-        public int getRandom() throws EmptyListException {
-            if (questionAnswerList.isEmpty()) {
-                throw new EmptyListException();
-            }
-            Random random = new Random();
-            return random.nextInt(getNumQuestions());
+    public int getRandom() throws EmptyListException {
+        if (questionAnswerList.isEmpty()) {
+            throw new EmptyListException();
         }
+        Random random = new Random();
+        return random.nextInt(getNumQuestions());
+    }
 
-    
-    
     /*
-     * EFFECTS: returns a random question with the index generated from 
+     * EFFECTS: returns a random question with the index generated from
      * the getRandom method
      * 
      */
     public String getRandomQuestion() {
         try {
             return questionAnswerList.get(getRandom()).getQuestion();
-        } catch(EmptyListException e) {
+        } catch (EmptyListException e) {
             return "No questions!";
+        }
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("course", course);
+        json.put("questions", questionsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray questionsToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (QuestionAnswer qa : questionAnswerList) {
+            jsonArray.put(qa.toJson());
+        }
+        return jsonArray;
     }
 }
-
-public JSONObject toJson() {
-    JSONObject json = new JSONObject();
-    json.put("course", course); 
-    json.put("questions", questionsToJson()); 
-    return json;
-}
-
- // EFFECTS: returns things in this workroom as a JSON array
-private JSONArray questionsToJson() {
-    JSONArray jsonArray = new JSONArray();
-    for (QuestionAnswer qa : questionAnswerList) {
-        jsonArray.put(qa.toJson());  
-    }
-    return jsonArray;
-}
-}
-
-
-
-    

@@ -1,6 +1,5 @@
 package persistence;
 
-import Exceptions.EmptyStringException;
 import model.Notes;
 
 import java.io.IOException;
@@ -10,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 import org.json.*;
 
+import exceptions.EmptyStringException;
+
 
 
 // Referenced from the JsonSerialization Demo
@@ -17,6 +18,7 @@ import org.json.*;
 public class JsonReader {
     private String source;
     // EFFECTS: constructs reader to read from source file
+
     public JsonReader(String source) {
         this.source = source;
     }

@@ -1,6 +1,6 @@
 package persistence;
-import model.QuestionAnswer;
 
+import model.QuestionAnswer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // Referenced from the JsonSerialization Demo

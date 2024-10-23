@@ -4,28 +4,31 @@ import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import org.junit.Test;
-import java.util.List;
-import Exceptions.EmptyStringException;
-import model.Notes;
 
+import exceptions.EmptyStringException;
+
+import java.util.List;
+
+import model.Notes;
 
 // Referenced from the JsonSerialization Demo
 // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 public class JsonReaderTest extends JsonTest {
 
     // tests reading when there is no file - should throw an exception
-    @Test 
-   public void testReaderNonExistentFIle() throws EmptyStringException {
+    @Test
+    public void testReaderNonExistentFIle() throws EmptyStringException {
         JsonReader reader = new JsonReader(".data/NA.json");
         try {
             Notes note = reader.read();
             fail("IOException expected");
         } catch (IOException e) {
-            //pass
+            // pass
         }
     }
-    // tests reading with a custom file that is empty 
-     @Test
+
+    // tests reading with a custom file that is empty
+    @Test
     public void testReaderEmptyNotes() throws EmptyStringException {
         JsonReader reader = new JsonReader("./data/testEmptyNotes.json");
         try {
@@ -37,8 +40,8 @@ public class JsonReaderTest extends JsonTest {
         }
     }
 
-     // tests reading with a custom file that is constructed normally
-     @Test
+    // tests reading with a custom file that is constructed normally
+    @Test
     public void testReaderNotes() throws EmptyStringException {
         JsonReader reader = new JsonReader("./data/testNormalNotes.json");
         try {
@@ -51,6 +54,5 @@ public class JsonReaderTest extends JsonTest {
             fail("Couldn't read from file");
         }
     }
-
 
 }

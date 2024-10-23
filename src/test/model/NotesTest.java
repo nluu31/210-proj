@@ -10,9 +10,9 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Exceptions.EmptyListException;
-import Exceptions.EmptyStringException;
-import Exceptions.OutOfBoundsException;
+import exceptions.EmptyListException;
+import exceptions.EmptyStringException;
+import exceptions.OutOfBoundsException;
 
 import java.util.*;
 
@@ -56,26 +56,27 @@ public class NotesTest {
         assertEquals(unit1List, testNotes.getAllFromUnit("Unit 1"));
 
     }
+
     @Test
     void testConstructorException() {
-       try {
-        QuestionAnswer newQA = new QuestionAnswer("", "a1", "1");
-        fail("Should have thrown an EmptyStringException");
-       } catch (EmptyStringException e) {
-        
-       }
-       try {
-        QuestionAnswer newQA = new QuestionAnswer("q1", "", "1");
-        fail("Should have thrown an EmptyStringException");
-       } catch (EmptyStringException e) {
-        
-       }
-       try {
-        QuestionAnswer newQA = new QuestionAnswer("q1", "a1", "");
-        fail("Should have thrown an EmptyStringException");
-       } catch (EmptyStringException e) {
-        
-       }
+        try {
+            QuestionAnswer newQA = new QuestionAnswer("", "a1", "1");
+            fail("Should have thrown an EmptyStringException");
+        } catch (EmptyStringException e) {
+            // pass
+        }
+        try {
+            QuestionAnswer newQA = new QuestionAnswer("q1", "", "1");
+            fail("Should have thrown an EmptyStringException");
+        } catch (EmptyStringException e) {
+            // pass
+        }
+        try {
+            QuestionAnswer newQA = new QuestionAnswer("q1", "a1", "");
+            fail("Should have thrown an EmptyStringException");
+        } catch (EmptyStringException e) {
+            // pass
+        }
 
     }
 
@@ -102,6 +103,12 @@ public class NotesTest {
         } catch (OutOfBoundsException e) {
             // Expected exception
         }
+        try {
+            testNotes.getQuestion(-1);
+            fail("Expected an OutOfBoundsException to be thrown");
+        } catch (OutOfBoundsException e) {
+            // pass
+        }
     }
 
     @Test
@@ -119,16 +126,7 @@ public class NotesTest {
             testNotes.getQuestion(4);
             fail("Expected an OutOfBoundsException to be thrown");
         } catch (OutOfBoundsException e) {
-        }
-        try {
-            testNotes.getAnswer(4);
-            fail("Expected an OutOfBoundsException to be thrown");
-        } catch (OutOfBoundsException e) {
-        }
-        try {
-            testNotes.getQuestion(-1);
-            fail("Expected an OutOfBoundsException to be thrown");
-        } catch (OutOfBoundsException e) {
+            // pass
         }
     }
 
@@ -148,15 +146,15 @@ public class NotesTest {
             testNotes.getAnswer(3);
             fail("Expected exception");
         } catch (OutOfBoundsException e) {
+            // pass
         }
         try {
             testNotes.getAnswer(-1);
             fail("Expected exception");
         } catch (OutOfBoundsException e) {
-
+            // pass
         }
     }
-
 
     @Test
     void testSize() {
