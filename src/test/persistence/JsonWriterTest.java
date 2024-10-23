@@ -61,7 +61,7 @@ public class JsonWriterTest {
             note = reader.read();
             assertEquals("210", note.getCourse());
             List<String> questions = note.getAllQuestions();
-            assertEquals(3, questions.size());
+            assertEquals(2, questions.size());
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");

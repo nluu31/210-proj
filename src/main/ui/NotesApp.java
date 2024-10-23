@@ -1,7 +1,6 @@
 package ui;
 
 import model.Notes;
-import java.util.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 

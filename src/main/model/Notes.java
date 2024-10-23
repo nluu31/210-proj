@@ -15,9 +15,6 @@ import Exceptions.OutOfBoundsException;
 public class Notes {
     private String course; // The course/class of the question
     private List<QuestionAnswer> questionAnswerList ; // a list of question answer pairs
-    private String question;
-    private String answer;
-    private String unit;
 
     /*
      * REQUIRES: className is not an empty string
