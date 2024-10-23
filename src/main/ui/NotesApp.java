@@ -30,13 +30,10 @@ public class NotesApp {
     public void runNotes() throws EmptyStringException {
         boolean keepGoing = true;
         String command = null;
-
         init();
-
         while (keepGoing) {
             displayMenu();
             command = input.next();
-
             if (command.equals("x")) {
                 keepGoing = false;
             } else {
@@ -72,8 +69,6 @@ public class NotesApp {
             System.out.println("Your course name is " + className);
         } else if (command.equals("s")) {
             saveNotes();
-        } else if (command.equals("l")) {
-            loadNotes();
         } else {
             System.out.println("Not a valid option!");
         }
@@ -81,15 +76,36 @@ public class NotesApp {
 
     // MODIFIES: this
     // EFFECTS: initiates the program
-    private void init() {
+    private void init() throws EmptyStringException {
         input = new Scanner(System.in);
         input.useDelimiter("\r?\n|\r");
-        doNewNote();
+        notes = new Notes("");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
+        initMenu();
     }
 
-    private void doNewNote() {
+    // EFFECTS: displays the initialization menu
+    private void initMenu() throws EmptyStringException {
+        boolean validInput = true;
+        while (validInput) {
+            System.out.println("\nSelect from:");
+            System.out.println("\tn -> Enter the name of a new course");
+            System.out.println("\tl -> Load a previously saved course");
+            String command = input.nextLine();
+            if (command.equals("n")) {
+                doNewNote();
+                validInput = false;
+            } else if (command.equals("l")) {
+                loadNotes();
+                validInput = false;
+            } else {
+                System.out.println("Invalid option. Please enter n or l.");
+            }
+        }
+    }
+
+    private void doNewNote() throws EmptyStringException {
         System.out.println("Enter the name of the course!");
         String courseName = input.nextLine();
         if (courseName.trim().isEmpty()) {
@@ -111,7 +127,6 @@ public class NotesApp {
         System.out.println("\tu -> Test yourself with a random question!");
         System.out.println("\ti -> View class name");
         System.out.println("\ts -> save questions and answers to file");
-        System.out.println("\tl -> load questions and answers from file");
         System.out.println("\tx -> quit");
         ;
     }
