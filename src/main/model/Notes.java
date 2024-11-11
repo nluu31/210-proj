@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import org.json.JSONArray;
@@ -131,6 +132,41 @@ public class Notes {
         }
     }
 
+    // EFFECTS: generates a multiple choice questions quiz
+    public String makeMultipleChoiceQuiz() {
+        if (questionAnswerList.size() < 4) {
+            return "Not enough questions for a quiz.";
+        }
+        try {
+            int randomIndex = getRandom();
+            QuestionAnswer correctQA = questionAnswerList.get(randomIndex);
+            List<String> options = generateOptions(correctQA.getAnswer());
+
+            StringBuilder quizDisplay = new StringBuilder("Question: " + correctQA.getQuestion() + "\n");
+            for (int i = 0; i < options.size(); i++) {
+                quizDisplay.append((char) ('A' + i)).append(". ").append(options.get(i)).append("\n");
+            }
+            return quizDisplay.toString();
+        } catch (EmptyListException e) {
+            return "No questions available to create a quiz.";
+        }
+    }
+
+    // EFFECTS: generates a list with the correct answer and 3 unique distractors
+    private List<String> generateOptions(String correctAnswer) {
+        List<String> options = new ArrayList<>(List.of(correctAnswer));
+        Random rand = new Random();
+
+        while (options.size() < 4) {
+            String distractor = questionAnswerList.get(rand.nextInt(questionAnswerList.size())).getAnswer();
+            if (!options.contains(distractor))
+                options.add(distractor);
+        }
+        Collections.shuffle(options);
+        return options;
+    }
+
+    // EFFECTS: creates a new Json object with courses and questions
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("course", course);
@@ -138,7 +174,7 @@ public class Notes {
         return json;
     }
 
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: returns things in this notes as a JSON array
     private JSONArray questionsToJson() {
         JSONArray jsonArray = new JSONArray();
         for (QuestionAnswer qa : questionAnswerList) {

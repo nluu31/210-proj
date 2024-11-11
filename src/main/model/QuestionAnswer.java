@@ -36,7 +36,7 @@ public class QuestionAnswer {
     public String getUnit() {
         return unit;
     }
-
+    // EFFECTS: creates a json object with question and object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("question", question);

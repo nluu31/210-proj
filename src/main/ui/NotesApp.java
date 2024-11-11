@@ -1,6 +1,7 @@
 package ui;
 
 import model.Notes;
+import model.Quiz;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -67,6 +68,8 @@ public class NotesApp {
         } else if (command.equals("i")) {
             String className = doGetClass(); // gets a random question
             System.out.println("Your course name is " + className);
+        } else if (command.equals("o")) {
+            System.out.println(doMakeQuiz());
         } else if (command.equals("s")) {
             saveNotes();
         } else {
@@ -85,6 +88,32 @@ public class NotesApp {
         initMenu();
     }
 
+    // EFFECTS: Generates a multiple-choice quiz and returns the result
+    private String doMakeQuiz() {
+        Quiz quiz = new Quiz(notes);
+        quiz.generateQuiz();
+    
+        quiz.displayQuestion();
+    
+        boolean correct = false;
+    
+        while (!correct) {
+            System.out.println("Please select an answer (A, B, C, or D):");
+            String userAnswer = input.next().toUpperCase();
+    
+            if (userAnswer.length() == 1 && userAnswer.matches("[A-D]")) {
+                if (quiz.checkAnswer(userAnswer)) {
+                    return "Correct! Well done!";
+                } else {
+                    System.out.println("Incorrect. Try again!");
+                }
+            } else {
+                System.out.println("Invalid input.");
+            }
+        }
+        return "Quiz completed!";
+    }
+    
     // EFFECTS: displays the initialization menu
     private void initMenu() throws EmptyStringException {
         boolean validInput = true;
@@ -126,6 +155,7 @@ public class NotesApp {
         System.out.println("\ty -> Find specific question");
         System.out.println("\tu -> Test yourself with a random question!");
         System.out.println("\ti -> View class name");
+        System.out.println("\to -> Take a multiple-choice quiz!");
         System.out.println("\ts -> save questions and answers to file");
         System.out.println("\tx -> quit");
         ;
