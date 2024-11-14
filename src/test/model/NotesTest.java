@@ -39,7 +39,7 @@ public class NotesTest {
         testQList.add("What is a character?");
         testAList.add("A single letter");
         testNotesEmpty = new Notes("Empty");
-        testNotesOne = new Notes("Empty");
+        testNotesOne = new Notes("One");
         testNotesOne.addQA("Q1", "A2", "U1");
         unit1List = new ArrayList<>();
         unit1List.add("What is an integer?");
@@ -52,8 +52,16 @@ public class NotesTest {
         assertEquals("CPSC210", testNotes.getCourse());
         assertEquals(3, testNotes.getNumQuestions());
         ArrayList<QuestionAnswer> emptyQA = new ArrayList<>();
+        try {
         assertEquals(emptyQA, testNotes.getAllFromUnit("Unit 3"));
+        } catch (Exception e) {
+            fail();
+        }
+        try {
         assertEquals(unit1List, testNotes.getAllFromUnit("Unit 1"));
+        } catch (Exception e) {
+            fail();
+        }
 
     }
 
@@ -77,6 +85,12 @@ public class NotesTest {
         } catch (EmptyStringException e) {
             // pass
         }
+        try {
+            testNotes.getAllFromUnit("");
+            fail();
+        } catch (EmptyStringException e) {
+            // pass 
+        }
 
     }
 
@@ -94,14 +108,14 @@ public class NotesTest {
             testNotes.getAnswer(3);
             fail("Expected an OutOfBoundsException to be thrown");
         } catch (OutOfBoundsException e) {
-            // Expected exception
+            // pass
         }
 
         try {
             testNotes.getQuestion(3);
             fail("Expected an OutOfBoundsException to be thrown");
         } catch (OutOfBoundsException e) {
-            // Expected exception
+            // pass
         }
         try {
             testNotes.getQuestion(-1);
@@ -211,4 +225,31 @@ public class NotesTest {
         JSONObject actualJson = testNotesJson.toJson();
         assertEquals(expectedJson.toString(), actualJson.toString());
     }
+
+
+    @Test 
+    void testGetterOnlyQuestionsAnswers() {
+        List<String> allQAs = new ArrayList<>();
+        allQAs.add("Q: Q1, A: A2");
+        assertEquals(allQAs, testNotesOne.getAllQuestionsAndAnswers());        
+    }
+
+    @Test
+    void testGenerateOptions() {
+        assertEquals(4, testNotes.generateOptions("A1").size());    
+    }
+
+    @Test
+    void testMCQuiz() {
+        assertEquals("Not enough questions for a quiz.", testNotesOne.makeMultipleChoiceQuiz());
+        assertEquals("Not enough questions for a quiz.", testNotes.makeMultipleChoiceQuiz());
+        assertEquals("Not enough questions for a quiz.", testNotesEmpty.makeMultipleChoiceQuiz());
+        try {
+            testNotes.addQA("q4", "a4", "4");
+            //assertEquals("...", testNotes.makeMultipleChoiceQuiz());
+        } catch (Exception e) {
+            fail();
+        } 
+
+}
 }

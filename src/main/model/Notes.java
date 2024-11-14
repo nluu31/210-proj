@@ -71,14 +71,18 @@ public class Notes {
     /*
      * EFFECTS: returns all questions from a unit in the list
      */
-    public List<String> getAllFromUnit(String unitName) {
+    public List<String> getAllFromUnit(String unitName) throws EmptyStringException {
         ArrayList<String> unitList = new ArrayList<>();
-        for (QuestionAnswer qa : questionAnswerList) {
-            if (qa.getUnit().equals(unitName)) {
-                unitList.add(qa.getQuestion());
+        if (unitName == "") {
+            throw new EmptyStringException();
+        } else {
+            for (QuestionAnswer qa : questionAnswerList) {
+                if (qa.getUnit().equals(unitName)) {
+                    unitList.add(qa.getQuestion());
+                }
             }
+            return unitList;
         }
-        return unitList;
     }
 
     /*
@@ -111,6 +115,7 @@ public class Notes {
         return course;
     }
 
+    // EFFECTS: returns a random number
     public int getRandom() throws EmptyListException {
         if (questionAnswerList.isEmpty()) {
             throw new EmptyListException();
@@ -152,24 +157,25 @@ public class Notes {
         }
     }
 
+    // EFFECTS: returns a list of questions and answers without the unit
     public List<String> getAllQuestionsAndAnswers() {
         List<String> allQAs = new ArrayList<>();
         for (QuestionAnswer qa : questionAnswerList) {
             allQAs.add("Q: " + qa.getQuestion() + ", A: " + qa.getAnswer());
         }
         return allQAs;
-        
+
     }
 
     // EFFECTS: generates a list with the correct answer and 3 unique distractors
-    private List<String> generateOptions(String correctAnswer) {
+    public List<String> generateOptions(String correctAnswer) {
         List<String> options = new ArrayList<>(List.of(correctAnswer));
         Random rand = new Random();
 
         while (options.size() < 4) {
-            String distractor = questionAnswerList.get(rand.nextInt(questionAnswerList.size())).getAnswer();
-            if (!options.contains(distractor))
-                options.add(distractor);
+            String wrongAnswer = questionAnswerList.get(rand.nextInt(questionAnswerList.size())).getAnswer();
+            if (!options.contains(wrongAnswer))
+                options.add(wrongAnswer);
         }
         Collections.shuffle(options);
         return options;

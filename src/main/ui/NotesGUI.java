@@ -23,28 +23,28 @@ public class NotesGUI {
     private JButton addQuestionButton;
     private JButton viewQuestionsButton;
     private JButton generateQuizButton;
+    private JButton getAllFromUnitButton;
     private Notes note;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    private JTextArea displayArea;  // Add a JTextArea to display questions and answers
+    private JTextArea displayArea;
 
+    // EFFECTS: creates a JFrame for the GUI
     public NotesGUI() {
         frame = new JFrame("Study Expert");
-        frame.setSize(400, 500);  // Increased frame size to fit the JTextArea
+        frame.setSize(400, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
-        // Create the JTextArea for displaying questions and answers
         displayArea = new JTextArea();
         displayArea.setEditable(false);
-        displayArea.setFont(new Font("Monospaced", Font.PLAIN, 12)); // Optional: set font for readability
+        displayArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
         displayArea.setLineWrap(true);
         displayArea.setWrapStyleWord(true);
 
-        // JScrollPane to allow scrolling if content exceeds the JTextArea area
         JScrollPane scrollPane = new JScrollPane(displayArea);
-        scrollPane.setPreferredSize(new Dimension(350, 200)); // Adjust size of display area
+        scrollPane.setPreferredSize(new Dimension(350, 200));
 
         // Start Panel setup
         startPanel = new JPanel();
@@ -55,21 +55,21 @@ public class NotesGUI {
 
         // Main Panel setup
         mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());  // Use BorderLayout for better organization
+        mainPanel.setLayout(new BorderLayout());
         addQuestionButton = new JButton("Add Question-Answer");
         viewQuestionsButton = new JButton("View All Questions");
         generateQuizButton = new JButton("Generate Quiz");
+        getAllFromUnitButton = new JButton("Get all from specified Unit");
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addQuestionButton);
-        buttonPanel.add(viewQuestionsButton);
         buttonPanel.add(generateQuizButton);
+        buttonPanel.add(getAllFromUnitButton);
 
         // Add components to mainPanel
-        mainPanel.add(scrollPane, BorderLayout.CENTER);  // Add the JScrollPane with JTextArea in the center
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);  // Add buttons at the bottom of the panel
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Add start panel initially
         frame.add(startPanel);
         frame.setVisible(true);
 
@@ -92,6 +92,7 @@ public class NotesGUI {
         addQuestionButton.addActionListener(e -> addQuestionAnswer());
         viewQuestionsButton.addActionListener(e -> viewAllQuestions());
         generateQuizButton.addActionListener(e -> generateQuiz());
+        getAllFromUnitButton.addActionListener(e -> getAllFromUnitGUI());
     }
 
     private void createNewNote() {
@@ -105,7 +106,7 @@ public class NotesGUI {
     }
 
     private void loadNote() {
-       try {
+        try {
             note = jsonReader.read();
             System.out.println("Loaded " + note.getAllQuestions() + " from " + JSON_STORE);
         } catch (IOException e) {
@@ -123,7 +124,7 @@ public class NotesGUI {
         String unit = JOptionPane.showInputDialog(frame, "Enter the unit:");
 
         if (question != null && answer != null && unit != null &&
-            !question.trim().isEmpty() && !answer.trim().isEmpty() && !unit.trim().isEmpty()) {
+                !question.trim().isEmpty() && !answer.trim().isEmpty() && !unit.trim().isEmpty()) {
             try {
                 note.addQA(question, answer, unit);
                 JOptionPane.showMessageDialog(frame, "Question-Answer added successfully.");
@@ -136,15 +137,35 @@ public class NotesGUI {
         viewAllQuestions();
     }
 
+    private void getAllFromUnitGUI() {
+        String unit = JOptionPane.showInputDialog(frame, "Enter the unit:");
+
+        if (unit != null) {
+            try {
+                List<String> allFromUnit = note.getAllFromUnit(unit);
+                StringBuilder questionDisplay = new StringBuilder("Questions and Answers from unit" + unit + "\n");
+                for (String s : allFromUnit) {
+                    questionDisplay.append(s).append("\n");
+                }
+                JOptionPane.showMessageDialog(frame, questionDisplay);
+            } catch (EmptyStringException e) {
+                JOptionPane.showMessageDialog(frame, "Error: Field cannot be empty.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(frame, "Field must be filled.");
+        }
+
+    }
+
     private void viewAllQuestions() {
         if (note == null) {
             displayArea.setText("No note loaded. Please load or create a note.");
-            return; 
+            return;
         }
         List<String> questionsAndAnswers = note.getAllQuestionsAndAnswers();
         if (questionsAndAnswers.isEmpty()) {
             displayArea.setText("No questions available.");
-            return; 
+            return;
         }
         StringBuilder questionDisplay = new StringBuilder("Questions and Answers:\n");
         for (String qa : questionsAndAnswers) {
@@ -159,12 +180,11 @@ public class NotesGUI {
     }
 
     private void switchToMainPanel() {
-        frame.remove(startPanel); 
-        frame.add(mainPanel);     
+        frame.remove(startPanel);
+        frame.add(mainPanel);
         frame.revalidate();
         frame.repaint();
 
-     
         setUpMainPanelListeners();
     }
 

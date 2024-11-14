@@ -51,7 +51,7 @@ public class Quiz {
     }
     
 
-    //EFFECTS: assigns a the corresponding character to the answer
+    //EFFECTS: assigns the corresponding character to the answer
     private String getCorrectAnswerLabel(String correctAnswer) {
         int index = options.indexOf(correctAnswer);
         char label = (char) ('A' + index);
