@@ -152,6 +152,15 @@ public class Notes {
         }
     }
 
+    public List<String> getAllQuestionsAndAnswers() {
+        List<String> allQAs = new ArrayList<>();
+        for (QuestionAnswer qa : questionAnswerList) {
+            allQAs.add("Q: " + qa.getQuestion() + ", A: " + qa.getAnswer());
+        }
+        return allQAs;
+        
+    }
+
     // EFFECTS: generates a list with the correct answer and 3 unique distractors
     private List<String> generateOptions(String correctAnswer) {
         List<String> options = new ArrayList<>(List.of(correctAnswer));
