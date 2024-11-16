@@ -197,4 +197,19 @@ public class Notes {
         }
         return jsonArray;
     }
+
+    // MODIFIES: this
+    // EFFECTS: removes the first question matching the given text and returns true
+    // if successful;
+    // returns false if no matching question is found.
+    //
+    public boolean removeQuestion(String question) {
+        for (int i = 0; i < questionAnswerList.size(); i++) {
+            if (questionAnswerList.get(i).getQuestion().equals(question)) {
+                questionAnswerList.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
 }

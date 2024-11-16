@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -123,6 +124,17 @@ public class NotesTest {
         } catch (OutOfBoundsException e) {
             // pass
         }
+    }
+
+    @Test
+    void testRemove() {
+        assertEquals(3, testNotes.getNumQuestions());
+        assertFalse(testNotes.removeQuestion("notaquestion"));
+        assertEquals(3, testNotes.getNumQuestions());
+        assertTrue(testNotes.removeQuestion("What is an integer?"));
+        assertEquals(2, testNotes.getNumQuestions());
+
+
     }
 
     @Test

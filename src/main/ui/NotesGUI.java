@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -24,6 +25,8 @@ public class NotesGUI {
     private JButton viewQuestionsButton;
     private JButton generateQuizButton;
     private JButton getAllFromUnitButton;
+    private JButton saveNotesButton;
+    private JButton removeQuestionButton;
     private Notes note;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
@@ -32,14 +35,14 @@ public class NotesGUI {
     // EFFECTS: creates a JFrame for the GUI
     public NotesGUI() {
         frame = new JFrame("Study Expert");
-        frame.setSize(400, 500);
+        frame.setSize(800, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
         displayArea = new JTextArea();
         displayArea.setEditable(false);
-        displayArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        displayArea.setFont(new Font("Helvetica", Font.PLAIN, 20));
         displayArea.setLineWrap(true);
         displayArea.setWrapStyleWord(true);
 
@@ -60,11 +63,15 @@ public class NotesGUI {
         viewQuestionsButton = new JButton("View All Questions");
         generateQuizButton = new JButton("Generate Quiz");
         getAllFromUnitButton = new JButton("Get all from specified Unit");
+        saveNotesButton = new JButton("Save your notes!");
+        removeQuestionButton = new JButton("Remove a question");
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addQuestionButton);
         buttonPanel.add(generateQuizButton);
         buttonPanel.add(getAllFromUnitButton);
+        buttonPanel.add(saveNotesButton);
+        buttonPanel.add(removeQuestionButton);
 
         // Add components to mainPanel
         mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -90,9 +97,11 @@ public class NotesGUI {
 
     private void setUpMainPanelListeners() {
         addQuestionButton.addActionListener(e -> addQuestionAnswer());
-        viewQuestionsButton.addActionListener(e -> viewAllQuestions());
+        saveNotesButton.addActionListener(e -> saveNotes());
         generateQuizButton.addActionListener(e -> generateQuiz());
         getAllFromUnitButton.addActionListener(e -> getAllFromUnitGUI());
+        removeQuestionButton.addActionListener(e -> removeQuestion());
+
     }
 
     private void createNewNote() {
@@ -104,7 +113,7 @@ public class NotesGUI {
             JOptionPane.showMessageDialog(frame, "Course name cannot be empty.");
         }
     }
-
+    // EFFECTS: loads notes as a json file
     private void loadNote() {
         try {
             note = jsonReader.read();
@@ -116,6 +125,20 @@ public class NotesGUI {
         }
         viewAllQuestions();
         JOptionPane.showMessageDialog(frame, "Last saved note loaded.");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: saves notes as a json file
+    private void saveNotes() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(note);
+            jsonWriter.close();
+            System.out.println("Saved " + note.getAllQuestions() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+        JOptionPane.showMessageDialog(frame, "Saved your notes.");
     }
 
     private void addQuestionAnswer() {
@@ -190,5 +213,23 @@ public class NotesGUI {
 
     public void display() {
         frame.setVisible(true);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes a question from the list and updates the display
+    private void removeQuestion() {
+        String questionToRemove = JOptionPane.showInputDialog(frame, "Enter the question to remove:");
+        
+        if (questionToRemove != null) {
+            boolean removed = note.removeQuestion(questionToRemove);
+            if (removed) {
+                JOptionPane.showMessageDialog(frame, "Question removed successfully.");
+                viewAllQuestions(); 
+            } else {
+                JOptionPane.showMessageDialog(frame, "Question not found.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(frame, "Please enter a valid question.");
+        }
     }
 }
