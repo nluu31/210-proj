@@ -157,11 +157,11 @@ public class Notes {
         }
     }
 
-    // EFFECTS: returns a list of questions and answers without the unit
+    // EFFECTS: returns a list of questions and answers
     public List<String> getAllQuestionsAndAnswers() {
         List<String> allQAs = new ArrayList<>();
         for (QuestionAnswer qa : questionAnswerList) {
-            allQAs.add("Q: " + qa.getQuestion() + ", A: " + qa.getAnswer());
+            allQAs.add("Q: " + qa.getQuestion() + ", A: " + qa.getAnswer() + ", Unit: " + qa.getUnit());
         }
         return allQAs;
 
@@ -174,8 +174,9 @@ public class Notes {
 
         while (options.size() < 4) {
             String wrongAnswer = questionAnswerList.get(rand.nextInt(questionAnswerList.size())).getAnswer();
-            if (!options.contains(wrongAnswer))
+            if (!options.contains(wrongAnswer)) {
                 options.add(wrongAnswer);
+            }
         }
         Collections.shuffle(options);
         return options;

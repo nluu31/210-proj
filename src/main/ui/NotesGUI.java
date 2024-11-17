@@ -49,14 +49,23 @@ public class NotesGUI {
         JScrollPane scrollPane = new JScrollPane(displayArea);
         scrollPane.setPreferredSize(new Dimension(350, 200));
 
-        // Start Panel setup
-        startPanel = new JPanel();
-        newNoteButton = new JButton("Create New Note");
-        loadNoteButton = new JButton("Load Last Saved Note");
-        startPanel.add(newNoteButton);
-        startPanel.add(loadNoteButton);
+        JPanel imagePanel = getImagePanel();
+        JPanel buttonPanel1 = getButtonPanel1();
+        getStartPanel(imagePanel, buttonPanel1);
 
-        // Main Panel setup
+        JPanel buttonPanel = mainPanelSetup();
+
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        frame.add(startPanel);
+        frame.setVisible(true);
+
+        setUpStartPanelListeners();
+    }
+
+    // EFFECTS: sets up the main panel for display
+    private JPanel mainPanelSetup() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         addQuestionButton = new JButton("Add Question-Answer");
@@ -72,17 +81,38 @@ public class NotesGUI {
         buttonPanel.add(getAllFromUnitButton);
         buttonPanel.add(saveNotesButton);
         buttonPanel.add(removeQuestionButton);
-
-        // Add components to mainPanel
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        frame.add(startPanel);
-        frame.setVisible(true);
-
-        setUpStartPanelListeners();
+        return buttonPanel;
     }
 
+    // EFFECTS: creates the start panel
+    private void getStartPanel(JPanel imagePanel, JPanel buttonPanel1) {
+        newNoteButton = new JButton("Create New Note");
+        loadNoteButton = new JButton("Load Last Saved Note");
+        buttonPanel1.add(newNoteButton);
+        buttonPanel1.add(loadNoteButton);
+        startPanel.add(buttonPanel1);
+        startPanel.add(imagePanel, BorderLayout.CENTER);
+    }
+
+    // EFFECTS: creates start panel layout
+    private JPanel getButtonPanel1() {
+        startPanel = new JPanel();
+        startPanel.setLayout(new BoxLayout(startPanel, BoxLayout.Y_AXIS));
+        JPanel buttonPanel1 = new JPanel();
+        buttonPanel1.setLayout(new FlowLayout(FlowLayout.CENTER));
+        return buttonPanel1;
+    }
+
+    // EFFECTS: creates the image
+    private JPanel getImagePanel() {
+        ImageIcon imageIcon = new ImageIcon("image.png");
+        JLabel imageLabel = new JLabel(imageIcon);
+        JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        imagePanel.add(imageLabel);
+        return imagePanel;
+    }
+
+    // EFFECTS: generates the action listeners for each button
     private void setUpStartPanelListeners() {
         newNoteButton.addActionListener(e -> {
             createNewNote();
@@ -95,6 +125,7 @@ public class NotesGUI {
         });
     }
 
+    // EFFECTS: generates the action listeners for each button
     private void setUpMainPanelListeners() {
         addQuestionButton.addActionListener(e -> addQuestionAnswer());
         saveNotesButton.addActionListener(e -> saveNotes());
@@ -104,6 +135,7 @@ public class NotesGUI {
 
     }
 
+    // EFFECTS: creates a new class note
     private void createNewNote() {
         String courseName = JOptionPane.showInputDialog(frame, "Enter course name:");
         if (courseName != null && !courseName.trim().isEmpty()) {
@@ -113,6 +145,7 @@ public class NotesGUI {
             JOptionPane.showMessageDialog(frame, "Course name cannot be empty.");
         }
     }
+
     // EFFECTS: loads notes as a json file
     private void loadNote() {
         try {
@@ -141,13 +174,14 @@ public class NotesGUI {
         JOptionPane.showMessageDialog(frame, "Saved your notes.");
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a question, answer, and unit to notes
     private void addQuestionAnswer() {
         String question = JOptionPane.showInputDialog(frame, "Enter the question:");
         String answer = JOptionPane.showInputDialog(frame, "Enter the answer:");
         String unit = JOptionPane.showInputDialog(frame, "Enter the unit:");
 
-        if (question != null && answer != null && unit != null &&
-                !question.trim().isEmpty() && !answer.trim().isEmpty() && !unit.trim().isEmpty()) {
+        if (question != null && answer != null && unit != null) {
             try {
                 note.addQA(question, answer, unit);
                 JOptionPane.showMessageDialog(frame, "Question-Answer added successfully.");
@@ -160,6 +194,7 @@ public class NotesGUI {
         viewAllQuestions();
     }
 
+    // EFFECTS: returns all the questions from a unit
     private void getAllFromUnitGUI() {
         String unit = JOptionPane.showInputDialog(frame, "Enter the unit:");
 
@@ -180,6 +215,7 @@ public class NotesGUI {
 
     }
 
+    // EFFECTS: displays all questions, answers, and units
     private void viewAllQuestions() {
         if (note == null) {
             displayArea.setText("No note loaded. Please load or create a note.");
@@ -190,18 +226,21 @@ public class NotesGUI {
             displayArea.setText("No questions available.");
             return;
         }
-        StringBuilder questionDisplay = new StringBuilder("Questions and Answers:\n");
+        StringBuilder questionDisplay = new StringBuilder("Course Name: " + note.getCourse());
+        questionDisplay.append("\n\nQuestions and Answers: \n");
         for (String qa : questionsAndAnswers) {
             questionDisplay.append(qa).append("\n");
         }
         displayArea.setText(questionDisplay.toString());
     }
 
+    // EFFECTS: generates a multiple choice quiz
     private void generateQuiz() {
         String quiz = note.makeMultipleChoiceQuiz();
         JOptionPane.showMessageDialog(frame, quiz);
     }
 
+    // EFFECTS: changes the panel to the main panel
     private void switchToMainPanel() {
         frame.remove(startPanel);
         frame.add(mainPanel);
@@ -211,6 +250,7 @@ public class NotesGUI {
         setUpMainPanelListeners();
     }
 
+    // EFFECTS: displays the frame by setting it's visibility to true
     public void display() {
         frame.setVisible(true);
     }
@@ -219,12 +259,12 @@ public class NotesGUI {
     // EFFECTS: removes a question from the list and updates the display
     private void removeQuestion() {
         String questionToRemove = JOptionPane.showInputDialog(frame, "Enter the question to remove:");
-        
+
         if (questionToRemove != null) {
             boolean removed = note.removeQuestion(questionToRemove);
             if (removed) {
                 JOptionPane.showMessageDialog(frame, "Question removed successfully.");
-                viewAllQuestions(); 
+                viewAllQuestions();
             } else {
                 JOptionPane.showMessageDialog(frame, "Question not found.");
             }
