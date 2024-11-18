@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.List;
 
 import model.Notes;
+import model.Quiz;
 import exceptions.EmptyStringException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -115,8 +116,13 @@ public class NotesGUI {
     // EFFECTS: generates the action listeners for each button
     private void setUpStartPanelListeners() {
         newNoteButton.addActionListener(e -> {
-            createNewNote();
-            switchToMainPanel();
+            try {
+                createNewNote();
+                switchToMainPanel();
+            } catch (EmptyStringException es) {
+                JOptionPane.showMessageDialog(frame, "Course name cannot be empty.");
+            }
+
         });
 
         loadNoteButton.addActionListener(e -> {
@@ -136,13 +142,13 @@ public class NotesGUI {
     }
 
     // EFFECTS: creates a new class note
-    private void createNewNote() {
+    private void createNewNote() throws EmptyStringException {
         String courseName = JOptionPane.showInputDialog(frame, "Enter course name:");
         if (courseName != null && !courseName.trim().isEmpty()) {
             note = new Notes(courseName);
             JOptionPane.showMessageDialog(frame, "New note created for course: " + courseName);
         } else {
-            JOptionPane.showMessageDialog(frame, "Course name cannot be empty.");
+            throw new EmptyStringException();
         }
     }
 
@@ -234,10 +240,54 @@ public class NotesGUI {
         displayArea.setText(questionDisplay.toString());
     }
 
-    // EFFECTS: generates a multiple choice quiz
+    // EFFECTS: generates a multiple-choice quiz
     private void generateQuiz() {
-        String quiz = note.makeMultipleChoiceQuiz();
-        JOptionPane.showMessageDialog(frame, quiz);
+        Quiz quizObject = new Quiz(note);
+        quizObject.generateQuiz();
+
+        boolean correct = false;
+
+        while (!correct) {
+            StringBuilder quizDisplay = new StringBuilder("Question:\n");
+            quizDisplay.append(quizObject.getQuestion()).append("\n\nOptions:\n");
+            List<String> options = quizObject.getOptions();
+
+            for (int i = 0; i < options.size(); i++) {
+                quizDisplay.append((char) ('A' + i)).append(": ").append(options.get(i)).append("\n");
+            }
+
+            String userAnswer = JOptionPane.showInputDialog(
+                    frame,
+                    quizDisplay.toString(),
+                    "Multiple Choice Quiz",
+                    JOptionPane.QUESTION_MESSAGE);
+
+            correct = answerQuestion(quizObject, correct, userAnswer);
+        }
+
+        JOptionPane.showMessageDialog(frame, "Quiz completed!");
+    }
+
+
+    // EFFECTS: generates the prompt for the user to answer the question
+    private boolean answerQuestion(Quiz quizObject, boolean correct, String userAnswer) {
+        if (userAnswer.length() == 1) {
+            userAnswer = userAnswer.toUpperCase();
+
+            if (userAnswer.matches("[A-D]")) {
+                if (quizObject.checkAnswer(userAnswer)) {
+                    JOptionPane.showMessageDialog(frame, "Correct! Well done!");
+                    correct = true;
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Incorrect! Try again.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(frame, "Invalid Input! Please enter A, B, C, or D.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(frame, "Invalid Input! Please enter a single letter.");
+        }
+        return correct;
     }
 
     // EFFECTS: changes the panel to the main panel

@@ -93,7 +93,6 @@ public class NotesApp {
     private String doMakeQuiz() {
         Quiz quiz = new Quiz(notes);
         quiz.generateQuiz();
-    
         quiz.displayQuestion();
     
         boolean correct = false;

@@ -36,6 +36,17 @@ public class Quiz {
         }
     }
 
+
+    // EFFECTS: returns the question
+    public String getQuestion() {
+        return question;
+    }
+    
+    // EFFECTS: returns the list of options
+    public List<String> getOptions() {
+        return options;
+    }
+
     // EFFECTS: adds wrong options to the quiz from the list of previously set
     // answers
     private void addOtherOptions() {
@@ -78,4 +89,8 @@ public class Quiz {
     public boolean checkAnswer(String userAnswer) {
         return userAnswer.equalsIgnoreCase(correctAnswerLabel);
     }
+
+    
+
+    
 }
