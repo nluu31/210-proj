@@ -9,12 +9,19 @@ Alongside a multiple choice function, there will also be a true or false questio
 
 ## User Stories
 - As a user, I wish to be able to note down concepts I have learned in class
-- As a user, I would like to be quizzed on materials I have noted in short form response
 - As a user, I would like to be quizzed on materials I have noted in multiple choice form
 - As a user, I want to be able to see what questions and answers I have already added
 - As a user, I want to be able to name my course 
-- As a user, I want to be able to view a folder of my courses
 - As a user, I want to be able to save my data/courses 
 - As a user, I want to be able to load my courses
+- As a user, I want to be able to view questions from a unit
+- As a user, I want to be able to remove a question
+
+# Instructions for End User
+- You can generate the first required action related to the user story "adding multiple Xs to a Y" by clicking the "Get all from specified Unit" button once you have created/loaded notes.
+- You can generate the first required action related to the user story "adding multiple Xs to a Y" by clicking the "Generate Quiz" button once you have created/loaded notes. 
+- You can locate my visual component by running the program for the first time, the image will appear in the starting screen.
+- You can save the state of my application by clicking the "Save your notes!" button on the button after you loaded/created a course.
+- You can reload the state of your application by clicking "Load Notes" in the startup screen.
 
 
