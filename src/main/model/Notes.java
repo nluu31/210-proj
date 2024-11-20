@@ -164,7 +164,15 @@ public class Notes {
             allQAs.add("Q: " + qa.getQuestion() + ", A: " + qa.getAnswer() + ", Unit: " + qa.getUnit());
         }
         return allQAs;
+    }
 
+    // EFFECTS: returns a list of questions and answers
+    public List<String> showOnlyQuestions() {
+        List<String> allQAs = new ArrayList<>();
+        for (QuestionAnswer qa : questionAnswerList) {
+            allQAs.add("Q: " + qa.getQuestion() + ", Unit: " + qa.getUnit());
+        }
+        return allQAs;
     }
 
     // EFFECTS: generates a list with the correct answer and 3 unique distractors

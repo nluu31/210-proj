@@ -10,7 +10,8 @@ public class QuestionAnswer {
     private String answer; // Answer
     private String unit; // the unit for the course
 
-    //EFFECTS: creates a new QuestionAnswer with a specified question, answer and unit.
+    // EFFECTS: creates a new QuestionAnswer with a specified question, answer and
+    // unit.
     public QuestionAnswer(String question, String answer, String unit) throws EmptyStringException {
         if (question == "" || answer == "" || unit == "") {
             throw new EmptyStringException();
@@ -37,7 +38,7 @@ public class QuestionAnswer {
     public String getUnit() {
         return unit;
     }
-    
+
     // EFFECTS: creates a json object with question and object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

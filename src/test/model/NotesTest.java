@@ -246,6 +246,13 @@ public class NotesTest {
     }
 
     @Test
+    void testGetterOnlyQuestions() {
+        List<String> allQAs = new ArrayList<>();
+        allQAs.add("Q: Q1, Unit: U1");
+        assertEquals(allQAs, testNotesOne.showOnlyQuestions());
+    }
+
+    @Test
     void testGenerateOptions() {
         assertEquals(4, testNotes.generateOptions("A1").size());
     }

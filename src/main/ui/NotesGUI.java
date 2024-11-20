@@ -25,6 +25,7 @@ public class NotesGUI {
     private JButton addQuestionButton;
     private JButton viewQuestionsButton;
     private JButton generateQuizButton;
+    private JButton hideAnswerButton;
     private JButton getAllFromUnitButton;
     private JButton saveNotesButton;
     private JButton removeQuestionButton;
@@ -75,13 +76,16 @@ public class NotesGUI {
         getAllFromUnitButton = new JButton("Get all from specified Unit");
         saveNotesButton = new JButton("Save your notes!");
         removeQuestionButton = new JButton("Remove a question");
+        hideAnswerButton = new JButton("Hide Answers");
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addQuestionButton);
-        buttonPanel.add(generateQuizButton);
         buttonPanel.add(getAllFromUnitButton);
-        buttonPanel.add(saveNotesButton);
+        buttonPanel.add(viewQuestionsButton);
+        buttonPanel.add(hideAnswerButton);
         buttonPanel.add(removeQuestionButton);
+        buttonPanel.add(generateQuizButton);
+        buttonPanel.add(saveNotesButton);
         return buttonPanel;
     }
 
@@ -138,6 +142,8 @@ public class NotesGUI {
         generateQuizButton.addActionListener(e -> generateQuiz());
         getAllFromUnitButton.addActionListener(e -> getAllFromUnitGUI());
         removeQuestionButton.addActionListener(e -> removeQuestion());
+        hideAnswerButton.addActionListener(e -> hideAnswers());
+        viewQuestionsButton.addActionListener(e -> viewAllQuestions());
 
     }
 
@@ -234,6 +240,25 @@ public class NotesGUI {
         }
         StringBuilder questionDisplay = new StringBuilder("Course Name: " + note.getCourse());
         questionDisplay.append("\n\nQuestions and Answers: \n");
+        for (String qa : questionsAndAnswers) {
+            questionDisplay.append(qa).append("\n");
+        }
+        displayArea.setText(questionDisplay.toString());
+    }
+
+    // EFFECTS: displays only questions and answers
+    private void hideAnswers() {
+        if (note == null) {
+            displayArea.setText("No note loaded. Please load or create a note.");
+            return;
+        }
+        List<String> questionsAndAnswers = note.showOnlyQuestions();
+        if (questionsAndAnswers.isEmpty()) {
+            displayArea.setText("No questions available.");
+            return;
+        }
+        StringBuilder questionDisplay = new StringBuilder("Course Name: " + note.getCourse());
+        questionDisplay.append("\n\nQuestions: \n");
         for (String qa : questionsAndAnswers) {
             questionDisplay.append(qa).append("\n");
         }
