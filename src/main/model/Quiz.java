@@ -47,6 +47,17 @@ public class Quiz {
         return options;
     }
 
+    // EFFECTS: returns the correct answer
+    public String getAnswer() {
+        return correctAnswer;
+    }
+
+    // EFFECTS: returns the correct answer label
+    public String getAnswerLabel() {
+        return correctAnswerLabel;
+    }
+    
+
     // EFFECTS: adds wrong options to the quiz from the list of previously set
     // answers
     private void addOtherOptions() {

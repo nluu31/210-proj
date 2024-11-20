@@ -139,7 +139,7 @@ public class Notes {
 
     // EFFECTS: generates a multiple choice questions quiz
     public String makeMultipleChoiceQuiz() {
-        if (questionAnswerList.size() < 4) {
+        if (questionAnswerList.size() < 4 && questionAnswerList.size() > 0) {
             return "Not enough questions for a quiz.";
         }
         try {
