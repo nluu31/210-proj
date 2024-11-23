@@ -2,20 +2,21 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
 
+import model.Event;
+import model.EventLog;
 import model.Notes;
 import model.Quiz;
 import exceptions.EmptyStringException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-public class NotesGUI {
+public class NotesGUI implements WindowListener {
     private static final String JSON_STORE = "./data/notes.json";
     private JFrame frame;
     private JPanel startPanel;
@@ -38,7 +39,8 @@ public class NotesGUI {
     public NotesGUI() {
         frame = new JFrame("Study Expert");
         frame.setSize(800, 800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.addWindowListener(this);
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
@@ -293,7 +295,6 @@ public class NotesGUI {
         JOptionPane.showMessageDialog(frame, "Quiz completed!");
     }
 
-
     // EFFECTS: generates the prompt for the user to answer the question
     private boolean answerQuestion(Quiz quizObject, boolean correct, String userAnswer) {
         if (userAnswer.length() == 1) {
@@ -347,4 +348,37 @@ public class NotesGUI {
             JOptionPane.showMessageDialog(frame, "Please enter a valid question.");
         }
     }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        for (Event event: EventLog.getInstance()) {
+            System.out.println(event.toString());
+        }
+        System.exit(0);
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+
 }

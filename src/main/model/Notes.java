@@ -37,6 +37,23 @@ public class Notes {
     public void addQA(String question, String answer, String unit) throws EmptyStringException {
         QuestionAnswer qas = new QuestionAnswer(question, answer, unit);
         this.questionAnswerList.add(qas);
+        EventLog.getInstance().logEvent(new Event("Added Question: " + qas.getQuestion()));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes the first question matching the given text and returns true
+    // if successful;
+    // returns false if no matching question is found.
+    //
+    public boolean removeQuestion(String question) {
+        for (int i = 0; i < questionAnswerList.size(); i++) {
+            if (questionAnswerList.get(i).getQuestion().equals(question)) {
+                questionAnswerList.remove(i);
+                EventLog.getInstance().logEvent(new Event("Removed question: " + question));
+                return true;
+            }
+        }
+        return false;
     }
 
     /*
@@ -195,6 +212,7 @@ public class Notes {
         JSONObject json = new JSONObject();
         json.put("course", course);
         json.put("questions", questionsToJson());
+        EventLog.getInstance().logEvent(new Event("Saved changes to last file"));
         return json;
     }
 
@@ -207,18 +225,4 @@ public class Notes {
         return jsonArray;
     }
 
-    // MODIFIES: this
-    // EFFECTS: removes the first question matching the given text and returns true
-    // if successful;
-    // returns false if no matching question is found.
-    //
-    public boolean removeQuestion(String question) {
-        for (int i = 0; i < questionAnswerList.size(); i++) {
-            if (questionAnswerList.get(i).getQuestion().equals(question)) {
-                questionAnswerList.remove(i);
-                return true;
-            }
-        }
-        return false;
-    }
 }
