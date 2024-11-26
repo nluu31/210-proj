@@ -349,34 +349,41 @@ public class NotesGUI implements WindowListener {
         }
     }
 
+    // EFFECTS: Overrides method from WindowListener, does nothing
     @Override
     public void windowClosing(WindowEvent e) {
     }
 
+    // EFFECTS: Overrides method from WindowListener, does nothing
     @Override
     public void windowOpened(WindowEvent e) {
     }
 
+    // EFFECTS: Overrides method from WindowListener, does nothing
     @Override
     public void windowDeiconified(WindowEvent e) {
     }
 
+    // EFFECTS: Overrides method from WindowListener, does nothing
     @Override
     public void windowActivated(WindowEvent e) {
     }
 
+    // EFFECTS: Prints the EventLog to the console after closing the app
     @Override
     public void windowClosed(WindowEvent e) {
-        for (Event event: EventLog.getInstance()) {
-            System.out.println(event.toString());
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.toString() + "\n");
         }
         System.exit(0);
     }
 
+    // EFFECTS: Overrides method from WindowListener, does nothing
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
 
+    // EFFECTS: Overrides method from WindowListener, does nothing
     @Override
     public void windowIconified(WindowEvent e) {
     }

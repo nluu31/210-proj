@@ -25,6 +25,7 @@ public class Notes {
         this.course = className;
         this.questionAnswerList = new ArrayList<>();
         questionAnswerList = new ArrayList<>();
+        EventLog.getInstance().logEvent(new Event("Created a Class: " + className));
     }
 
     /*

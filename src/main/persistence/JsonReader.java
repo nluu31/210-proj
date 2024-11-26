@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Event;
+import model.EventLog;
 import model.Notes;
 
 import java.io.IOException;
@@ -28,6 +30,7 @@ public class JsonReader {
     public Notes read() throws IOException, EmptyStringException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
+        EventLog.getInstance().logEvent(new Event("Loaded last saved notes"));
         return parseNotes(jsonObject);
     }
 

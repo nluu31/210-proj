@@ -24,4 +24,27 @@ Alongside a multiple choice function, there will also be a true or false questio
 - You can save the state of my application by clicking the "Save your notes!" button on the button after you loaded/created a course.
 - You can reload the state of your application by clicking "Load Notes" in the startup screen.
 
+# Phase 4: Task 2
+
+Mon Nov 25 15:56:55 PST 2024
+Loaded last saved notes
+
+Mon Nov 25 15:56:55 PST 2024
+Added Question: q1
+
+Mon Nov 25 15:56:55 PST 2024
+Added Question: 1
+
+Mon Nov 25 15:57:07 PST 2024
+Added Question: temp1
+
+Mon Nov 25 15:57:13 PST 2024
+Saved changes to last file
+
+Mon Nov 25 15:57:16 PST 2024
+Removed question: temp1
+
+Mon Nov 25 15:57:17 PST 2024
+Saved changes to last file
+
 
