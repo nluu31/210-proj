@@ -47,4 +47,6 @@ Removed question: temp1
 Mon Nov 25 15:57:17 PST 2024
 Saved changes to last file
 
+# Phase 4: Task 3
 
+Judging by my UML diagram, I found that my NotesGUI class in the UI package requires the most amount of changes. The NotesGUI class contains a lot of code to visually display the content, but I feel like there are too many methods in that class that could easily be refactored into another external class to allow for a more coherent and readable code. For example, I have methods for both displaying panels and methods for actions related to the X's and Y's of my class. Given more time, I think it would be smart to split NotesGUI into two classes: one to display the panels and have the visual effect, and another that is responsible for generating the actions related to my X's and Y's.

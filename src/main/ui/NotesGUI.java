@@ -270,29 +270,34 @@ public class NotesGUI implements WindowListener {
     // EFFECTS: generates a multiple-choice quiz
     private void generateQuiz() {
         Quiz quizObject = new Quiz(note);
-        quizObject.generateQuiz();
+        if (note.getNumQuestions() < 4) {
+            JOptionPane.showMessageDialog(frame, "Not enough questions");
 
-        boolean correct = false;
+        } else {
+            quizObject.generateQuiz();
 
-        while (!correct) {
-            StringBuilder quizDisplay = new StringBuilder("Question:\n");
-            quizDisplay.append(quizObject.getQuestion()).append("\n\nOptions:\n");
-            List<String> options = quizObject.getOptions();
+            boolean correct = false;
 
-            for (int i = 0; i < options.size(); i++) {
-                quizDisplay.append((char) ('A' + i)).append(": ").append(options.get(i)).append("\n");
+            while (!correct) {
+                StringBuilder quizDisplay = new StringBuilder("Question:\n");
+                quizDisplay.append(quizObject.getQuestion()).append("\n\nOptions:\n");
+                List<String> options = quizObject.getOptions();
+
+                for (int i = 0; i < options.size(); i++) {
+                    quizDisplay.append((char) ('A' + i)).append(": ").append(options.get(i)).append("\n");
+                }
+
+                String userAnswer = JOptionPane.showInputDialog(
+                        frame,
+                        quizDisplay.toString(),
+                        "Multiple Choice Quiz",
+                        JOptionPane.QUESTION_MESSAGE);
+
+                correct = answerQuestion(quizObject, correct, userAnswer);
             }
 
-            String userAnswer = JOptionPane.showInputDialog(
-                    frame,
-                    quizDisplay.toString(),
-                    "Multiple Choice Quiz",
-                    JOptionPane.QUESTION_MESSAGE);
-
-            correct = answerQuestion(quizObject, correct, userAnswer);
+            JOptionPane.showMessageDialog(frame, "Quiz completed!");
         }
-
-        JOptionPane.showMessageDialog(frame, "Quiz completed!");
     }
 
     // EFFECTS: generates the prompt for the user to answer the question

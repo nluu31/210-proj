@@ -11,9 +11,10 @@ import org.json.JSONObject;
 import exceptions.EmptyListException;
 import exceptions.EmptyStringException;
 import exceptions.OutOfBoundsException;
+import persistence.Writable;
 
 // Represents a notebook with the course it's related to, a question and an answer.
-public class Notes {
+public class Notes implements Writable {
     private String course; // The course/class of the question
     private List<QuestionAnswer> questionAnswerList; // a list of question answer pairs
 
@@ -209,6 +210,7 @@ public class Notes {
     }
 
     // EFFECTS: creates a new Json object with courses and questions
+    @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("course", course);

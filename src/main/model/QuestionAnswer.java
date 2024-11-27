@@ -3,9 +3,10 @@ package model;
 import org.json.JSONObject;
 
 import exceptions.EmptyStringException;
+import persistence.Writable;
 
 //Represents a Question and Answer Pair
-public class QuestionAnswer {
+public class QuestionAnswer implements Writable {
     private String question; // Question
     private String answer; // Answer
     private String unit; // the unit for the course
@@ -40,6 +41,7 @@ public class QuestionAnswer {
     }
 
     // EFFECTS: creates a json object with question and object
+    @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("question", question);
